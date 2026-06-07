@@ -276,10 +276,64 @@ const matchOverlay = document.getElementById('matchOverlay');
 const matchText = document.getElementById('matchText');
 const closeMatchBtn = document.getElementById('closeMatchBtn');
 
+// Chat de demostración dentro del match (vista previa: no hay backend, los mensajes no se guardan)
+const matchChat = document.getElementById('matchChat');
+const chatMessages = document.getElementById('chatMessages');
+const chatForm = document.getElementById('chatForm');
+const chatInput = document.getElementById('chatInput');
+const openChatBtn = document.getElementById('openChatBtn');
+
+let currentMatchPet = null;
+
+const chatReplies = [
+  (pet) => `¡Hola! Qué ilusión que a ${pet} le hayas dado "me gusta" 🐾`,
+  (pet) => `${pet} está deseando conocer a tu perro. ¿Te viene bien quedar este finde?`,
+  (pet) => 'Podríamos vernos en un parque cerca de los dos, ¿qué zona te queda mejor?',
+  (pet) => `¡Genial! Avísame con tiempo y preparamos un paseo tranquilo para que se conozcan 🐕`,
+  (pet) => `Jaja, ${pet} se pone muy contento/a cuando hay planes nuevos 😄`,
+];
+
+function addChatBubble(text, sender) {
+  const bubble = document.createElement('div');
+  bubble.className = `chat__bubble chat__bubble--${sender}`;
+  bubble.textContent = text;
+  chatMessages.appendChild(bubble);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function resetChat(petName) {
+  currentMatchPet = petName;
+  chatMessages.innerHTML = '';
+  matchChat.hidden = true;
+  openChatBtn.textContent = 'Abrir chat 💬';
+  addChatBubble(`¡Hola! Soy el dueño/a de ${petName} 🐶 Encantado/a de conectar contigo.`, 'them');
+}
+
 function triggerMatch(petName) {
   matchText.textContent = `A ti y a ${petName} les gustaron mutuamente. ¡Es buen momento para coordinar un encuentro o paseo! 🐾`;
+  resetChat(petName);
   matchOverlay.hidden = false;
 }
+
+openChatBtn.addEventListener('click', () => {
+  matchChat.hidden = !matchChat.hidden;
+  openChatBtn.textContent = matchChat.hidden ? 'Abrir chat 💬' : 'Cerrar chat';
+  if (!matchChat.hidden) chatInput.focus();
+});
+
+chatForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const text = chatInput.value.trim();
+  if (!text) return;
+
+  addChatBubble(text, 'me');
+  chatInput.value = '';
+
+  setTimeout(() => {
+    const reply = chatReplies[Math.floor(Math.random() * chatReplies.length)](currentMatchPet);
+    addChatBubble(reply, 'them');
+  }, 900);
+});
 
 closeMatchBtn.addEventListener('click', () => {
   matchOverlay.hidden = true;

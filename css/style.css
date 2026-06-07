@@ -628,7 +628,8 @@ img {
   box-shadow: var(--shadow);
   padding: 36px;
   text-align: center;
-  max-width: 360px;
+  max-width: 380px;
+  width: 100%;
   animation: match-pop 0.35s ease;
 }
 
@@ -646,6 +647,93 @@ img {
 @keyframes match-pop {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+.match-card__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Chat de demostración tras un match */
+.chat {
+  text-align: left;
+  margin-bottom: 22px;
+}
+
+.chat__hint {
+  font-size: 0.78rem;
+  color: var(--brown-light);
+  margin-bottom: 10px;
+}
+
+.chat__messages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.chat__bubble {
+  max-width: 80%;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.chat__bubble--me {
+  align-self: flex-end;
+  background: var(--orange);
+  color: var(--white);
+  border-bottom-right-radius: 4px;
+}
+
+.chat__bubble--them {
+  align-self: flex-start;
+  background: var(--white);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow);
+}
+
+.chat__form {
+  display: flex;
+  gap: 8px;
+}
+
+.chat__form input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--peach);
+  font: inherit;
+  background: var(--white);
+  color: var(--text);
+}
+
+.chat__form input:focus {
+  outline: 2px solid var(--orange);
+}
+
+[data-theme="dark"] .chat__messages {
+  background: #1f1812;
+}
+
+[data-theme="dark"] .chat__bubble--them {
+  background: #3a2c20;
+  color: var(--cream);
+}
+
+[data-theme="dark"] .chat__form input {
+  background: #1f1812;
+  border-color: #4a3526;
+  color: var(--cream);
 }
 
 /* Pet cards */

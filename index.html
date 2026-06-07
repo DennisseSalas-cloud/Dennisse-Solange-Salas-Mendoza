@@ -147,7 +147,20 @@
     <div class="match-card">
       <h2>🎉 ¡Es un Match!</h2>
       <p id="matchText">A ti y a esta mascota les gustaron mutuamente.</p>
-      <button class="btn btn--primary" id="closeMatchBtn">Genial 🐾</button>
+
+      <div class="chat" id="matchChat" hidden>
+        <p class="chat__hint">💬 Vista previa del chat — los mensajes no se guardan, es solo una demostración.</p>
+        <div class="chat__messages" id="chatMessages"></div>
+        <form class="chat__form" id="chatForm">
+          <input type="text" id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off" maxlength="200" required>
+          <button type="submit" class="btn btn--primary">Enviar</button>
+        </form>
+      </div>
+
+      <div class="match-card__actions">
+        <button class="btn btn--secondary" id="openChatBtn">Abrir chat 💬</button>
+        <button class="btn btn--primary" id="closeMatchBtn">Genial 🐾</button>
+      </div>
     </div>
   </div>
 
