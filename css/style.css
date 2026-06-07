@@ -112,6 +112,23 @@ img {
   border-color: var(--orange);
 }
 
+.lang-toggle {
+  background: var(--cream);
+  border: 2px solid var(--peach);
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.lang-toggle:hover {
+  transform: translateY(-2px);
+  border-color: var(--orange);
+}
+
 /* Notificaciones */
 .notif {
   position: relative;
@@ -238,6 +255,7 @@ img {
 [data-theme="dark"] .filter-select,
 [data-theme="dark"] .like-btn,
 [data-theme="dark"] .theme-toggle,
+[data-theme="dark"] .lang-toggle,
 [data-theme="dark"] .discover__btn,
 [data-theme="dark"] .match-card {
   background: #2c2117;
@@ -300,7 +318,9 @@ img {
 [data-theme="dark"] .form input[type="text"],
 [data-theme="dark"] .form input[type="number"],
 [data-theme="dark"] .form input[type="email"],
-[data-theme="dark"] .form textarea {
+[data-theme="dark"] .form textarea,
+[data-theme="dark"] .blog-comments__form input,
+[data-theme="dark"] .blog-comments__form textarea {
   background: #1f1812;
   border-color: #4a3526;
   color: #f3e6d8;
@@ -1744,6 +1764,135 @@ img {
   color: var(--cream);
 }
 
+/* Programa de referidos */
+.referral {
+  padding: 56px 0;
+}
+
+.referral__card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  border-radius: var(--radius);
+  padding: 32px;
+  flex-wrap: wrap;
+}
+
+.referral__emoji {
+  font-size: 3rem;
+}
+
+.referral__text {
+  flex: 1;
+  min-width: 240px;
+}
+
+.referral__text p {
+  color: var(--cream);
+  opacity: 0.92;
+}
+
+.referral__code-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.referral__code {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--brown);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+}
+
+.referral__message {
+  margin-top: 14px;
+  font-weight: 700;
+  color: var(--cream);
+  min-height: 24px;
+}
+
+[data-theme="dark"] .referral__code {
+  background: rgba(255, 247, 239, 0.92);
+}
+
+/* Comentarios del blog */
+.blog-comments {
+  margin-top: 16px;
+  border-top: 1px solid var(--peach);
+  padding-top: 16px;
+  text-align: left;
+}
+
+.blog-comments__title {
+  font-size: 0.95rem;
+  color: var(--brown);
+  margin-bottom: 10px;
+}
+
+.blog-comments__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.blog-comment {
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.blog-comment__author {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--orange-dark);
+}
+
+.blog-comment__text {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+.blog-comments__empty {
+  font-size: 0.88rem;
+  color: var(--brown-light);
+  margin-bottom: 14px;
+}
+
+.blog-comments__form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.blog-comments__form textarea {
+  resize: vertical;
+}
+
+[data-theme="dark"] .blog-comments {
+  border-top-color: #4a3526;
+}
+
+[data-theme="dark"] .blog-comments__title {
+  color: var(--cream);
+}
+
+[data-theme="dark"] .blog-comment {
+  background: #2a2018;
+}
+
+[data-theme="dark"] .blog-comment__text {
+  color: var(--cream);
+}
+
 /* Mi perfil */
 .profile__intro {
   text-align: center;
@@ -2056,7 +2205,9 @@ img {
 .form input[type="text"],
 .form input[type="number"],
 .form input[type="email"],
-.form textarea {
+.form textarea,
+.blog-comments__form input,
+.blog-comments__form textarea {
   padding: 12px 14px;
   border: 2px solid var(--peach);
   border-radius: 10px;
@@ -2067,7 +2218,9 @@ img {
 }
 
 .form input:focus,
-.form textarea:focus {
+.form textarea:focus,
+.blog-comments__form input:focus,
+.blog-comments__form textarea:focus {
   outline: none;
   border-color: var(--orange);
 }

@@ -947,22 +947,46 @@ const blogPosts = [
     title: 'Cómo preparar el primer paseo con otro perro',
     excerpt: 'Trucos para que el primer encuentro entre dos perros sea tranquilo y positivo para ambos.',
     text: 'Elige un lugar abierto y neutral, mantén a los perros con correa al principio y deja que se huelan a su propio ritmo. Observa su lenguaje corporal y separa el encuentro si notas tensión — lo importante es que ambos disfruten la experiencia.',
+    comments: [
+      { author: 'Marta y Coco', text: '¡Nos sirvió muchísimo para el primer encuentro de Coco con otro perro del parque!' },
+      { author: 'Iván', text: 'La parte de observar el lenguaje corporal es clave, antes no le prestaba atención.' },
+    ],
   },
   {
     emoji: '🩺',
     title: 'Señales de que tu perro necesita ir al veterinario',
     excerpt: 'Aprende a reconocer cambios de comportamiento o energía que conviene revisar a tiempo.',
     text: 'Pérdida de apetito, cansancio inusual, cojera o cambios bruscos de humor son señales que no deberías ignorar. Ante la duda, consulta siempre con un profesional — mejor prevenir que lamentar.',
+    comments: [
+      { author: 'Sofía', text: 'Gracias por el recordatorio, llevé a mi perra al veterinario por una cojera leve y era mejor revisarlo a tiempo.' },
+    ],
   },
   {
     emoji: '🎾',
     title: 'Juegos para socializar a tu cachorro',
     excerpt: 'Actividades sencillas que ayudan a tu perro a ganar confianza con otros perros y personas.',
     text: 'Juegos de buscar y traer, paseos en grupo y sesiones cortas de juego libre con otros cachorros ayudan a tu perro a aprender a relacionarse. Empieza con encuentros breves y ve aumentando la duración poco a poco.',
+    comments: [],
   },
 ];
 
 const blogGrid = document.getElementById('blogGrid');
+
+function renderComments(post, index) {
+  if (!post.comments.length) {
+    return '<p class="blog-comments__empty">Sé el primero en comentar este artículo.</p>';
+  }
+  return post.comments
+    .map(
+      (comment) => `
+        <li class="blog-comment">
+          <span class="blog-comment__author">${comment.author}</span>
+          <p class="blog-comment__text">${comment.text}</p>
+        </li>
+      `
+    )
+    .join('');
+}
 
 function renderBlogPosts() {
   blogGrid.innerHTML = blogPosts
@@ -973,6 +997,17 @@ function renderBlogPosts() {
         <p class="blog-card__excerpt">${post.excerpt}</p>
         <p class="blog-card__text" id="blogText-${index}" hidden>${post.text}</p>
         <button class="btn btn--secondary btn--full read-post-btn" data-index="${index}">Leer artículo</button>
+        <div class="blog-comments" id="blogComments-${index}" hidden>
+          <h4 class="blog-comments__title">Comentarios</h4>
+          <ul class="blog-comments__list" id="blogCommentsList-${index}">${renderComments(post, index)}</ul>
+          <form class="blog-comments__form" id="blogCommentForm-${index}" data-index="${index}">
+            <label class="visually-hidden" for="blogCommentName-${index}">Tu nombre</label>
+            <input type="text" id="blogCommentName-${index}" name="author" placeholder="Tu nombre" required>
+            <label class="visually-hidden" for="blogCommentText-${index}">Tu comentario</label>
+            <textarea id="blogCommentText-${index}" name="text" rows="2" placeholder="Escribe un comentario..." required></textarea>
+            <button type="submit" class="btn btn--primary">Comentar</button>
+          </form>
+        </div>
       </article>
     `)
     .join('');
@@ -980,9 +1015,24 @@ function renderBlogPosts() {
   blogGrid.querySelectorAll('.read-post-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       const text = document.getElementById(`blogText-${btn.dataset.index}`);
+      const comments = document.getElementById(`blogComments-${btn.dataset.index}`);
       const isOpen = !text.hidden;
       text.hidden = isOpen;
+      comments.hidden = isOpen;
       btn.textContent = isOpen ? 'Leer artículo' : 'Ocultar artículo';
+    });
+  });
+
+  blogGrid.querySelectorAll('.blog-comments__form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const index = Number(form.dataset.index);
+      const author = form.elements.author.value.trim();
+      const text = form.elements.text.value.trim();
+      if (!author || !text) return;
+      blogPosts[index].comments.push({ author, text });
+      form.reset();
+      document.getElementById(`blogCommentsList-${index}`).innerHTML = renderComments(blogPosts[index], index);
     });
   });
 }
@@ -1224,4 +1274,34 @@ contactForm.addEventListener('submit', (event) => {
   event.preventDefault();
   contactStatus.textContent = '✅ ¡Gracias por escribirnos! Es una demostración — en la versión completa recibirías una respuesta de nuestro equipo por correo.';
   contactForm.reset();
+});
+
+// Selector de idioma (demostración — próximamente disponible en otros idiomas)
+const langToggle = document.getElementById('langToggle');
+const languages = ['🌐 ES', '🌐 EN', '🌐 FR'];
+let langIndex = 0;
+
+langToggle.addEventListener('click', () => {
+  langIndex = (langIndex + 1) % languages.length;
+  langToggle.textContent = languages[langIndex];
+  if (langIndex !== 0) {
+    langToggle.setAttribute('title', '🌍 Es una demostración — muy pronto PatasMatch estará disponible en más idiomas.');
+  } else {
+    langToggle.removeAttribute('title');
+  }
+});
+
+// Programa de referidos: copiar código de invitación
+const referralCode = document.getElementById('referralCode');
+const copyReferralBtn = document.getElementById('copyReferralBtn');
+const referralMessage = document.getElementById('referralMessage');
+
+copyReferralBtn.addEventListener('click', async () => {
+  const code = referralCode.textContent.trim();
+  try {
+    await navigator.clipboard.writeText(code);
+    referralMessage.textContent = `✅ ¡Código "${code}" copiado! Compártelo con un amigo — cuando se registre, ambos recibiréis 1 mes de Plus gratis.`;
+  } catch (error) {
+    referralMessage.textContent = `📋 Tu código de invitación es "${code}" — cópialo y compártelo con un amigo para que ambos ganéis 1 mes de Plus gratis.`;
+  }
 });

@@ -34,6 +34,7 @@
             <ul class="notif__list" id="notifList" aria-live="polite"></ul>
           </div>
         </div>
+        <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">🌐 ES</button>
         <button class="theme-toggle" id="themeToggle" aria-label="Cambiar a modo oscuro">🌙</button>
         <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
       </div>
@@ -389,6 +390,23 @@
         <button type="submit" class="btn btn--primary btn--full">Enviar mensaje</button>
         <p class="form__message" id="contactMessage_status" aria-live="polite"></p>
       </form>
+    </div>
+  </section>
+
+  <section class="referral" id="referidos">
+    <div class="container">
+      <div class="referral__card">
+        <span class="referral__emoji" aria-hidden="true">🎁</span>
+        <div class="referral__text">
+          <h2 class="section-title section-title--light">Invita a un amigo y ganad los dos</h2>
+          <p>Comparte tu código con otros dueños de perros — cuando se registren, ambos recibiréis 1 mes de PatasMatch Plus gratis 🏅.</p>
+          <div class="referral__code-row">
+            <code class="referral__code" id="referralCode">PATASMATCH-DENNISSE26</code>
+            <button class="btn btn--primary" id="copyReferralBtn">Copiar código</button>
+          </div>
+          <p class="referral__message" id="referralMessage" aria-live="polite"></p>
+        </div>
+      </div>
     </div>
   </section>
 
