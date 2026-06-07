@@ -547,11 +547,12 @@ viewToggleButtons.forEach((btn) => {
     viewToggleButtons.forEach((b) => b.classList.remove('is-active'));
     btn.classList.add('is-active');
 
-    const isDiscover = btn.dataset.view === 'descubrir';
-    petGrid.hidden = isDiscover;
-    discoverView.hidden = !isDiscover;
+    const view = btn.dataset.view;
+    petGrid.hidden = view !== 'galeria';
+    discoverView.hidden = view !== 'descubrir';
+    mapView.hidden = view !== 'mapa';
 
-    if (isDiscover) {
+    if (view === 'descubrir') {
       discoverIndex = 0;
       renderDiscoverCard();
     }
@@ -846,3 +847,131 @@ unlockAdmirersBtn.addEventListener('click', () => {
   unlockAdmirersBtn.textContent = '¡Desbloqueado con Plus! 🏅';
   unlockAdmirersBtn.disabled = true;
 });
+
+// Mapa interactivo: marcadores de mascotas y lugares seguros
+const mapView = document.getElementById('mapView');
+const mapStage = document.getElementById('mapStage');
+const mapInfo = document.getElementById('mapInfo');
+
+const mapPins = [
+  { type: 'pet', name: 'Toby', emoji: '🐕', detail: 'Labrador · busca pareja y compañero de paseo', x: 22, y: 60 },
+  { type: 'pet', name: 'Luna', emoji: '🐶', detail: 'Pug · busca compañero de paseo', x: 58, y: 28 },
+  { type: 'pet', name: 'Rocky', emoji: '🐩', detail: 'Bulldog · busca pareja', x: 76, y: 58 },
+  { type: 'pet', name: 'Mia', emoji: '🐕‍🦺', detail: 'Poodle · busca compañero de paseo', x: 40, y: 78 },
+  { type: 'spot', name: 'Parque del Retiro', emoji: '🌳', detail: 'Lugar seguro recomendado para la primera cita', x: 32, y: 42 },
+  { type: 'spot', name: 'Ribera del Manzanares', emoji: '🌊', detail: 'Lugar seguro recomendado para paseos largos', x: 66, y: 40 },
+];
+
+function renderMapPins() {
+  mapStage.innerHTML = mapPins
+    .map((pin, index) => `
+      <button class="map-pin map-pin--${pin.type}" style="left: ${pin.x}%; top: ${pin.y}%" data-index="${index}" aria-label="${pin.name}">
+        <span>${pin.emoji}</span>
+      </button>
+    `)
+    .join('');
+
+  mapStage.querySelectorAll('.map-pin').forEach((pin) => {
+    pin.addEventListener('click', () => {
+      const data = mapPins[Number(pin.dataset.index)];
+      const label = data.type === 'pet' ? '🐾 Mascota cerca de ti' : '📍 Lugar seguro recomendado';
+      mapInfo.innerHTML = `<strong>${data.emoji} ${data.name}</strong> — ${label}<br>${data.detail}`;
+    });
+  });
+}
+
+renderMapPins();
+
+// Blog y consejos caninos
+const blogPosts = [
+  {
+    emoji: '🦮',
+    title: 'Cómo preparar el primer paseo con otro perro',
+    excerpt: 'Trucos para que el primer encuentro entre dos perros sea tranquilo y positivo para ambos.',
+    text: 'Elige un lugar abierto y neutral, mantén a los perros con correa al principio y deja que se huelan a su propio ritmo. Observa su lenguaje corporal y separa el encuentro si notas tensión — lo importante es que ambos disfruten la experiencia.',
+  },
+  {
+    emoji: '🩺',
+    title: 'Señales de que tu perro necesita ir al veterinario',
+    excerpt: 'Aprende a reconocer cambios de comportamiento o energía que conviene revisar a tiempo.',
+    text: 'Pérdida de apetito, cansancio inusual, cojera o cambios bruscos de humor son señales que no deberías ignorar. Ante la duda, consulta siempre con un profesional — mejor prevenir que lamentar.',
+  },
+  {
+    emoji: '🎾',
+    title: 'Juegos para socializar a tu cachorro',
+    excerpt: 'Actividades sencillas que ayudan a tu perro a ganar confianza con otros perros y personas.',
+    text: 'Juegos de buscar y traer, paseos en grupo y sesiones cortas de juego libre con otros cachorros ayudan a tu perro a aprender a relacionarse. Empieza con encuentros breves y ve aumentando la duración poco a poco.',
+  },
+];
+
+const blogGrid = document.getElementById('blogGrid');
+
+function renderBlogPosts() {
+  blogGrid.innerHTML = blogPosts
+    .map((post, index) => `
+      <article class="card blog-card">
+        <span class="blog-card__emoji">${post.emoji}</span>
+        <h3>${post.title}</h3>
+        <p class="blog-card__excerpt">${post.excerpt}</p>
+        <p class="blog-card__text" id="blogText-${index}" hidden>${post.text}</p>
+        <button class="btn btn--secondary btn--full read-post-btn" data-index="${index}">Leer artículo</button>
+      </article>
+    `)
+    .join('');
+
+  blogGrid.querySelectorAll('.read-post-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const text = document.getElementById(`blogText-${btn.dataset.index}`);
+      const isOpen = !text.hidden;
+      text.hidden = isOpen;
+      btn.textContent = isOpen ? 'Leer artículo' : 'Ocultar artículo';
+    });
+  });
+}
+
+renderBlogPosts();
+
+// Preguntas frecuentes (acordeón)
+const faqs = [
+  {
+    question: '¿Es gratis usar PatasMatch?',
+    answer: 'Sí, el plan Gratis te permite crear el perfil de tu mascota, buscar y dar "me gusta" sin coste. PatasMatch Plus añade funciones extra como ver quién mostró interés en tu mascota.',
+  },
+  {
+    question: '¿Cómo protegen mi privacidad y la de mi mascota?',
+    answer: 'Solo compartimos la información necesaria para que otros dueños conozcan a tu mascota. Recomendamos no compartir datos personales sensibles hasta tener confianza con la otra persona.',
+  },
+  {
+    question: '¿Qué pasa si hago match con otra mascota?',
+    answer: 'Cuando ambos perfiles se dan "me gusta" se abre una vista previa de chat para coordinar un encuentro o paseo — siempre te recomendamos quedar en lugares públicos y seguros.',
+  },
+  {
+    question: '¿Puedo cancelar mi suscripción Plus cuando quiera?',
+    answer: 'Sí, puedes darte de baja en cualquier momento y seguir usando PatasMatch con el plan Gratis sin perder el perfil de tu mascota.',
+  },
+];
+
+const faqList = document.getElementById('faqList');
+
+function renderFaq() {
+  faqList.innerHTML = faqs
+    .map((faq, index) => `
+      <div class="faq-item" id="faqItem-${index}">
+        <button class="faq-item__question" data-index="${index}">
+          <span>${faq.question}</span>
+          <span class="faq-item__icon">+</span>
+        </button>
+        <p class="faq-item__answer">${faq.answer}</p>
+      </div>
+    `)
+    .join('');
+
+  faqList.querySelectorAll('.faq-item__question').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const item = document.getElementById(`faqItem-${btn.dataset.index}`);
+      item.classList.toggle('is-open');
+    });
+  });
+}
+
+renderFaq();

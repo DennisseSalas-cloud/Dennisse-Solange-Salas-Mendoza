@@ -17,6 +17,8 @@
         <a href="#comunidad">Comunidad</a>
         <a href="#perfil">Mi perfil</a>
         <a href="#como-funciona">Cómo funciona</a>
+        <a href="#blog">Blog</a>
+        <a href="#faq">FAQ</a>
         <a href="#precios">Precios</a>
         <a href="#registro">Regístrate</a>
       </nav>
@@ -76,6 +78,16 @@
     </div>
   </section>
 
+  <section class="blog" id="blog">
+    <div class="container">
+      <h2 class="section-title">Blog y consejos caninos</h2>
+      <p class="blog__intro">Artículos breves para ayudarte a cuidar a tu perro y disfrutar al máximo de cada paseo y cada cita.</p>
+      <div class="cards cards--blog" id="blogGrid">
+        <!-- Los artículos se generan con JavaScript -->
+      </div>
+    </div>
+  </section>
+
   <section class="pets" id="mascotas">
     <div class="container">
       <h2 class="section-title">Mascotas cerca de ti</h2>
@@ -88,6 +100,7 @@
       <div class="view-toggle">
         <button class="view-toggle__btn is-active" data-view="galeria">🗂️ Galería</button>
         <button class="view-toggle__btn" data-view="descubrir">👉 Descubrir</button>
+        <button class="view-toggle__btn" data-view="mapa">🗺️ Mapa</button>
       </div>
 
       <div class="filters">
@@ -127,6 +140,14 @@
           <button class="discover__btn discover__btn--pass" id="passBtn" aria-label="Pasar">✕</button>
           <button class="discover__btn discover__btn--like" id="superLikeBtn" aria-label="Me gusta">❤️</button>
         </div>
+      </div>
+
+      <div class="map-view" id="mapView" hidden>
+        <p class="map-view__hint">Toca un marcador para ver qué mascotas y lugares recomendados hay cerca de ti.</p>
+        <div class="map-view__stage" id="mapStage">
+          <!-- Los marcadores se generan con JavaScript -->
+        </div>
+        <p class="map-view__info" id="mapInfo">Selecciona un marcador del mapa para ver más información.</p>
       </div>
     </div>
   </section>
@@ -270,6 +291,16 @@
         <button class="btn btn--secondary" id="affiliateBtn">Ver productos</button>
       </div>
       <p class="local-business__message" id="businessMessage"></p>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="container">
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <p class="faq__intro">Resolvemos las dudas más comunes sobre seguridad, privacidad y funcionamiento de PatasMatch.</p>
+      <div class="faq__list" id="faqList">
+        <!-- Las preguntas se generan con JavaScript -->
+      </div>
     </div>
   </section>
 
