@@ -45,6 +45,10 @@ const pets = [
     activityBadges: ['Paseador frecuente 🥇'],
     weeklyWalks: 5,
     likesYou: true,
+    reviews: [
+      { author: 'Marta', rating: 5, comment: 'Quedamos puntuales y los perros se llevaron genial 🐾' },
+      { author: 'Iván', rating: 4, comment: 'Muy buena energía entre los perros, repetiríamos sin duda' },
+    ],
   },
   {
     name: 'Luna', breed: 'Pug', age: 2, emoji: '🐶', goals: ['paseo'],
@@ -54,6 +58,9 @@ const pets = [
     activityBadges: [],
     weeklyWalks: 2,
     likesYou: false,
+    reviews: [
+      { author: 'Sofía', rating: 5, comment: 'Paseo tranquilo y agradable, Luna es un encanto' },
+    ],
   },
   {
     name: 'Rocky', breed: 'Bulldog', age: 4, emoji: '🐩', goals: ['pareja'],
@@ -64,6 +71,11 @@ const pets = [
     activityBadges: ['Primeras 5 citas 🎉'],
     weeklyWalks: 3,
     likesYou: false,
+    reviews: [
+      { author: 'Carlos', rating: 4, comment: 'Tardó en soltarse pero al final se llevaron de maravilla' },
+      { author: 'Lucía', rating: 5, comment: 'Dueño muy responsable y puntual, todo perfecto' },
+      { author: 'Ana', rating: 4, comment: 'Buena experiencia, repetiremos la próxima semana' },
+    ],
   },
   {
     name: 'Mia', breed: 'Poodle', age: 1, emoji: '🐕‍🦺', goals: ['paseo'],
@@ -73,6 +85,7 @@ const pets = [
     activityBadges: [],
     weeklyWalks: 6,
     likesYou: true,
+    reviews: [],
   },
   {
     name: 'Max', breed: 'Pastor Alemán', age: 5, emoji: '🐺', goals: ['pareja', 'paseo'],
@@ -82,6 +95,9 @@ const pets = [
     activityBadges: ['Paseador frecuente 🥇'],
     weeklyWalks: 7,
     likesYou: false,
+    reviews: [
+      { author: 'Pedro', rating: 3, comment: 'Buen paseo, aunque conviene avisar antes si hay otros machos cerca' },
+    ],
   },
   {
     name: 'Bella', breed: 'Beagle', age: 2, emoji: '🐾', goals: ['pareja'],
@@ -92,6 +108,10 @@ const pets = [
     activityBadges: [],
     weeklyWalks: 4,
     likesYou: false,
+    reviews: [
+      { author: 'Noa', rating: 5, comment: 'Bella es supersociable, ideal para un primer encuentro' },
+      { author: 'Diego', rating: 5, comment: 'Quedada perfecta, muy recomendable' },
+    ],
   },
 ];
 
@@ -158,7 +178,29 @@ function buildPetTags(pet) {
     ? `<p class="pet-card__vaccines">💉 Vacunas al día: ${pet.vaccines.join(', ')}</p>`
     : '';
 
-  return { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock };
+  const reviewsBlock = buildReviewsBlock(pet);
+
+  return { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock };
+}
+
+// Construye el resumen de reseñas: estrellas promedio, número de reseñas y el último comentario
+function buildReviewsBlock(pet) {
+  const reviews = pet.reviews || [];
+  if (reviews.length === 0) {
+    return `<p class="pet-card__reviews pet-card__reviews--empty">⭐ Sin reseñas todavía</p>`;
+  }
+
+  const average = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+  const fullStars = Math.round(average);
+  const stars = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+  const latest = reviews[reviews.length - 1];
+
+  return `
+    <div class="pet-card__reviews">
+      <p class="pet-card__rating"><span class="stars">${stars}</span> ${average.toFixed(1)} (${reviews.length} ${reviews.length === 1 ? 'reseña' : 'reseñas'})</p>
+      <p class="pet-card__review-quote">“${latest.comment}” — ${latest.author}</p>
+    </div>
+  `;
 }
 
 function renderPets() {
@@ -168,7 +210,7 @@ function renderPets() {
     const card = document.createElement('div');
     card.className = 'pet-card';
 
-    const { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock } = buildPetTags(pet);
+    const { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock } = buildPetTags(pet);
 
     card.innerHTML = `
       <div class="pet-card__photo">${pet.emoji}</div>
@@ -178,6 +220,7 @@ function renderPets() {
         <div class="pet-card__tags">${verifiedTag}${activityTags}${streakTag}${goalTags}${distanceTag}</div>
         ${vaccinesBlock}
         <div class="pet-card__tags">${personalityTags}</div>
+        ${reviewsBlock}
         <div class="pet-card__actions">
           <button class="like-btn" data-name="${pet.name}">Me gusta 🐾</button>
         </div>
@@ -420,3 +463,63 @@ subscribeBtn.addEventListener('click', () => {
 oneTimeBtn.addEventListener('click', () => {
   pricingMessage.textContent = '🐾 Muy pronto podrás comprar verificaciones, impulsos de perfil y packs de fotos sin necesidad de suscribirte.';
 });
+
+// Comunidad: lugares de encuentro seguros sugeridos
+const safeSpots = [
+  { name: 'Parque del Retiro · Zona canina', emoji: '🌳', description: 'Amplia zona vallada con sombra y fuentes de agua, siempre concurrida.' },
+  { name: 'Parque Juan Carlos I', emoji: '🐾', description: 'Senderos amplios y zonas de descanso, ideal para paseos largos en grupo.' },
+  { name: 'Playa habilitada para perros', emoji: '🏖️', description: 'Tramo de playa fuera de temporada alta, perfecto para que socialicen sin correa.' },
+  { name: 'Cafetería pet-friendly del centro', emoji: '☕', description: 'Terraza con cuencos de agua, ideal para una primera cita tranquila entre dueños.' },
+];
+
+const spotsGrid = document.getElementById('spotsGrid');
+
+function renderSafeSpots() {
+  spotsGrid.innerHTML = safeSpots
+    .map((spot) => `
+      <div class="card spot-card">
+        <span class="spot-card__emoji">${spot.emoji}</span>
+        <h4>${spot.name}</h4>
+        <p>${spot.description}</p>
+      </div>
+    `)
+    .join('');
+}
+
+renderSafeSpots();
+
+// Comunidad: quedadas y eventos grupales
+const events = [
+  { title: 'Quedada de razas pequeñas', date: '14 jun · 11:00', place: 'Parque del Retiro', emoji: '🐩', spots: 8 },
+  { title: 'Paseo nocturno por el río', date: '21 jun · 20:30', place: 'Ribera del Manzanares', emoji: '🌙', spots: 12 },
+  { title: 'Picnic canino y juegos en grupo', date: '28 jun · 12:00', place: 'Parque Juan Carlos I', emoji: '🧺', spots: 20 },
+];
+
+const eventsGrid = document.getElementById('eventsGrid');
+
+function renderEvents() {
+  eventsGrid.innerHTML = '';
+
+  events.forEach((event) => {
+    const card = document.createElement('div');
+    card.className = 'card event-card';
+    card.innerHTML = `
+      <span class="event-card__emoji">${event.emoji}</span>
+      <h4>${event.title}</h4>
+      <p class="event-card__meta">📅 ${event.date} · 📍 ${event.place}</p>
+      <p class="event-card__spots">${event.spots} plazas disponibles</p>
+      <button class="btn btn--secondary btn--full join-event-btn">Apuntarme</button>
+    `;
+    eventsGrid.appendChild(card);
+  });
+
+  eventsGrid.querySelectorAll('.join-event-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const alreadyJoined = btn.classList.contains('is-joined');
+      btn.classList.toggle('is-joined');
+      btn.textContent = alreadyJoined ? 'Apuntarme' : '¡Apuntado! 🐾';
+    });
+  });
+}
+
+renderEvents();
