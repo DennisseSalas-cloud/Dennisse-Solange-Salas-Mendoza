@@ -12,12 +12,39 @@ navLinks.querySelectorAll('a').forEach((link) => {
 
 // Datos de ejemplo de mascotas
 const pets = [
-  { name: 'Toby', breed: 'Labrador', age: 3, emoji: '🐕', goals: ['pareja', 'paseo'], verified: true },
-  { name: 'Luna', breed: 'Pug', age: 2, emoji: '🐶', goals: ['paseo'], verified: false },
-  { name: 'Rocky', breed: 'Bulldog', age: 4, emoji: '🐩', goals: ['pareja'], verified: true },
-  { name: 'Mia', breed: 'Poodle', age: 1, emoji: '🐕‍🦺', goals: ['paseo'], verified: false },
-  { name: 'Max', breed: 'Pastor Alemán', age: 5, emoji: '🐺', goals: ['pareja', 'paseo'], verified: false },
-  { name: 'Bella', breed: 'Beagle', age: 2, emoji: '🐾', goals: ['pareja'], verified: true },
+  {
+    name: 'Toby', breed: 'Labrador', age: 3, emoji: '🐕', goals: ['pareja', 'paseo'],
+    verified: true,
+    vaccines: ['Rabia', 'Parvovirus', 'Moquillo'],
+    personality: ['Juguetón 🎾', 'Cariñoso 🥰'],
+  },
+  {
+    name: 'Luna', breed: 'Pug', age: 2, emoji: '🐶', goals: ['paseo'],
+    verified: false,
+    personality: ['Tranquila 😌', 'Le encanta olfatear todo 👃'],
+  },
+  {
+    name: 'Rocky', breed: 'Bulldog', age: 4, emoji: '🐩', goals: ['pareja'],
+    verified: true,
+    vaccines: ['Rabia', 'Hepatitis', 'Leptospirosis'],
+    personality: ['Protector 🛡️', 'Algo tímido al principio'],
+  },
+  {
+    name: 'Mia', breed: 'Poodle', age: 1, emoji: '🐕‍🦺', goals: ['paseo'],
+    verified: false,
+    personality: ['Muy activa ⚡', 'Le encanta correr'],
+  },
+  {
+    name: 'Max', breed: 'Pastor Alemán', age: 5, emoji: '🐺', goals: ['pareja', 'paseo'],
+    verified: false,
+    personality: ['Leal 🐾', 'No le gusta jugar con machos 🚫'],
+  },
+  {
+    name: 'Bella', breed: 'Beagle', age: 2, emoji: '🐾', goals: ['pareja'],
+    verified: true,
+    vaccines: ['Rabia', 'Parvovirus', 'Leptospirosis'],
+    personality: ['Cariñosa 🥰', 'Sociable con otros perros'],
+  },
 ];
 
 const petGrid = document.getElementById('petGrid');
@@ -55,12 +82,22 @@ function renderPets() {
       ? `<span class="tag tag--verified">🏅 Verificado</span>`
       : '';
 
+    const vaccinesBlock = pet.verified && pet.vaccines?.length
+      ? `<p class="pet-card__vaccines">💉 Vacunas al día: ${pet.vaccines.join(', ')}</p>`
+      : '';
+
+    const personalityTags = (pet.personality || [])
+      .map((trait) => `<span class="tag tag--trait">${trait}</span>`)
+      .join('');
+
     card.innerHTML = `
       <div class="pet-card__photo">${pet.emoji}</div>
       <div class="pet-card__body">
         <h3>${pet.name} ${pet.verified ? '🏅' : ''}</h3>
         <p>${pet.breed} · ${pet.age} años</p>
         <div class="pet-card__tags">${verifiedTag}${goalTags}${distanceTag}</div>
+        ${vaccinesBlock}
+        <div class="pet-card__tags">${personalityTags}</div>
         <div class="pet-card__actions">
           <button class="like-btn" data-name="${pet.name}">Me gusta 🐾</button>
         </div>

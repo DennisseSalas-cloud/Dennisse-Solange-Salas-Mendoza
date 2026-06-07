@@ -254,6 +254,21 @@ img {
   color: var(--peach);
 }
 
+.tag--trait {
+  background: var(--cream);
+  color: var(--brown-light);
+  border: 1.5px solid var(--peach);
+}
+
+.pet-card__vaccines {
+  font-size: 0.82rem;
+  background: var(--cream);
+  color: var(--brown);
+  border-radius: 10px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--orange);
+}
+
 /* Filters */
 .filters {
   display: flex;
