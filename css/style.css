@@ -538,6 +538,11 @@ img {
   color: #c1502e;
 }
 
+.tag--community {
+  background: #cdeccb;
+  color: #3a6b3f;
+}
+
 .pet-card__vaccines {
   font-size: 0.82rem;
   background: var(--cream);
@@ -1019,12 +1024,42 @@ img {
 }
 
 .pet-card {
+  position: relative;
   background: var(--white);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--brown-light);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}
+
+.favorite-btn.is-favorite {
+  color: #f4b400;
+}
+
+[data-theme="dark"] .favorite-btn {
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--cream);
 }
 
 .pet-card__photo {
@@ -1200,6 +1235,55 @@ img {
 }
 
 /* Community section */
+/* Tablón de testimonios */
+.testimonials {
+  padding: 72px 0;
+}
+
+.testimonials__intro {
+  text-align: center;
+  max-width: 620px;
+  margin: -16px auto 36px;
+  color: var(--brown-light);
+}
+
+.cards--testimonials {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.testimonial-card {
+  text-align: center;
+}
+
+.testimonial-card__emoji {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.testimonial-card__quote {
+  color: var(--text);
+  opacity: 0.9;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.testimonial-card__rating {
+  color: #f4b400;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.testimonial-card__author {
+  font-weight: 700;
+  color: var(--brown);
+}
+
+[data-theme="dark"] .testimonial-card__author {
+  color: var(--cream);
+}
+
 .community {
   padding: 72px 0;
   background: var(--cream);

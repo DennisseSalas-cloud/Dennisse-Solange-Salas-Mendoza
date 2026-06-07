@@ -99,6 +99,7 @@ const pets = [
     vaccines: ['Rabia', 'Parvovirus', 'Moquillo'],
     personality: ['Juguetón 🎾', 'Cariñoso 🥰'],
     activityBadges: ['Paseador frecuente 🥇'],
+    communityBadges: ['Organizador de quedadas 🏆'],
     weeklyWalks: 5,
     likesYou: true,
     reviews: [
@@ -136,6 +137,7 @@ const pets = [
     vaccines: ['Rabia', 'Hepatitis', 'Leptospirosis'],
     personality: ['Protector 🛡️', 'Algo tímido al principio'],
     activityBadges: ['Primeras 5 citas 🎉'],
+    communityBadges: ['Primeras reseñas escritas ✍️'],
     weeklyWalks: 3,
     likesYou: false,
     reviews: [
@@ -206,13 +208,18 @@ const filterButtons = document.querySelectorAll('[data-filter-group="goal"]');
 const sizeFilter = document.getElementById('sizeFilter');
 const energyFilter = document.getElementById('energyFilter');
 const verifiedOnlyFilter = document.getElementById('verifiedOnlyFilter');
+const favoritesOnlyFilter = document.getElementById('favoritesOnlyFilter');
 
 const filters = {
   goal: 'todos',
   size: 'todos',
   energy: 'todos',
   verifiedOnly: false,
+  favoritesOnly: false,
 };
+
+// Modo favoritos: guarda perfiles para revisarlos después sin dar "me gusta" todavía
+const favoritePets = new Set();
 
 function goalLabel(goal) {
   return goal === 'pareja' ? 'Busca pareja 💞' : 'Busca paseo 🐕';
@@ -225,6 +232,7 @@ function getFilteredPets() {
     if (filters.size !== 'todos' && pet.size !== filters.size) return false;
     if (filters.energy !== 'todos' && pet.energy !== filters.energy) return false;
     if (filters.verifiedOnly && !pet.verified) return false;
+    if (filters.favoritesOnly && !favoritePets.has(pet.name)) return false;
     return true;
   });
 
@@ -252,6 +260,10 @@ function buildPetTags(pet) {
     .map((badge) => `<span class="tag tag--activity">${badge}</span>`)
     .join('');
 
+  const communityTags = (pet.communityBadges || [])
+    .map((badge) => `<span class="tag tag--community">${badge}</span>`)
+    .join('');
+
   const streakTag = typeof pet.weeklyWalks === 'number'
     ? `<span class="tag tag--streak">🔥 ${pet.weeklyWalks} paseos esta semana</span>`
     : '';
@@ -268,7 +280,7 @@ function buildPetTags(pet) {
   const availabilityBlock = buildAvailabilityBlock(pet);
   const momentsBlock = buildMomentsBlock(pet);
 
-  return { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock, availabilityBlock, momentsBlock };
+  return { verifiedTag, activityTags, communityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock, availabilityBlock, momentsBlock };
 }
 
 const WEEK_DAYS = [
@@ -348,14 +360,16 @@ function renderPets() {
     const card = document.createElement('div');
     card.className = 'pet-card';
 
-    const { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock, availabilityBlock, momentsBlock } = buildPetTags(pet);
+    const { verifiedTag, activityTags, communityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock, availabilityBlock, momentsBlock } = buildPetTags(pet);
+    const isFavorite = favoritePets.has(pet.name);
 
     card.innerHTML = `
+      <button class="favorite-btn ${isFavorite ? 'is-favorite' : ''}" data-name="${pet.name}" aria-label="Guardar en favoritos" title="Guardar en favoritos">${isFavorite ? '⭐' : '☆'}</button>
       <div class="pet-card__photo">${pet.emoji}</div>
       <div class="pet-card__body">
         <h3>${pet.name} ${pet.verified ? '🏅' : ''}</h3>
         <p>${pet.breed} · ${pet.age} años · ${pet.size || ''}</p>
-        <div class="pet-card__tags">${verifiedTag}${activityTags}${streakTag}${goalTags}${distanceTag}</div>
+        <div class="pet-card__tags">${verifiedTag}${activityTags}${communityTags}${streakTag}${goalTags}${distanceTag}</div>
         ${vaccinesBlock}
         <div class="pet-card__tags">${personalityTags}</div>
         ${reviewsBlock}
@@ -383,6 +397,25 @@ function renderPets() {
       }
     });
   });
+
+  // Botones de favoritos: guardar perfiles para revisarlos después
+  petGrid.querySelectorAll('.favorite-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.name;
+      if (favoritePets.has(name)) {
+        favoritePets.delete(name);
+      } else {
+        favoritePets.add(name);
+      }
+
+      if (filters.favoritesOnly) {
+        renderPets();
+      } else {
+        btn.classList.toggle('is-favorite');
+        btn.textContent = btn.classList.contains('is-favorite') ? '⭐' : '☆';
+      }
+    });
+  });
 }
 
 filterButtons.forEach((btn) => {
@@ -406,6 +439,11 @@ energyFilter.addEventListener('change', () => {
 
 verifiedOnlyFilter.addEventListener('change', () => {
   filters.verifiedOnly = verifiedOnlyFilter.checked;
+  renderPets();
+});
+
+favoritesOnlyFilter.addEventListener('change', () => {
+  filters.favoritesOnly = favoritesOnlyFilter.checked;
   renderPets();
 });
 
@@ -794,13 +832,16 @@ function renderProfileCard() {
   const badgeTags = (myPet.activityBadges || [])
     .map((badge) => `<span class="tag tag--activity">${badge}</span>`)
     .join('');
+  const communityTags = (myPet.communityBadges || [])
+    .map((badge) => `<span class="tag tag--community">${badge}</span>`)
+    .join('');
   const verifiedTag = myPet.verified ? '<span class="tag tag--verified">🏅 Verificado</span>' : '';
 
   profileCard.innerHTML = `
     <div class="profile__photo">${myPet.emoji}</div>
     <h3>${myPet.name}</h3>
     <p>${myPet.breed} · ${myPet.age} años · ${myPet.size}</p>
-    <div class="profile__badges">${verifiedTag}${badgeTags}</div>
+    <div class="profile__badges">${verifiedTag}${badgeTags}${communityTags}</div>
   `;
 }
 
@@ -975,3 +1016,30 @@ function renderFaq() {
 }
 
 renderFaq();
+
+// Tablón de testimonios: opiniones de dueños sobre la app (no sobre otras mascotas)
+const testimonials = [
+  { author: 'Marta G.', emoji: '🐩', rating: 5, quote: 'Gracias a PatasMatch encontré un compañero de paseo perfecto para mi perra — ahora salimos juntos cada semana.' },
+  { author: 'Iván R.', emoji: '🐕‍🦺', rating: 5, quote: 'Me encantó lo fácil que es coordinar quedadas y lo segura que se siente la comunidad.' },
+  { author: 'Carla M.', emoji: '🐶', rating: 4, quote: 'La app es muy intuitiva y mi cachorro ya hizo varios amigos del parque gracias a las quedadas grupales.' },
+];
+
+const testimonialsGrid = document.getElementById('testimonialsGrid');
+
+function renderTestimonials() {
+  testimonialsGrid.innerHTML = testimonials
+    .map((testimonial) => {
+      const stars = '★'.repeat(testimonial.rating) + '☆'.repeat(5 - testimonial.rating);
+      return `
+        <div class="card testimonial-card">
+          <span class="testimonial-card__emoji">${testimonial.emoji}</span>
+          <p class="testimonial-card__quote">“${testimonial.quote}”</p>
+          <p class="testimonial-card__rating">${stars}</p>
+          <p class="testimonial-card__author">— ${testimonial.author}</p>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+renderTestimonials();
