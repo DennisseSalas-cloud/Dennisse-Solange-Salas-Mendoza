@@ -1294,6 +1294,147 @@ img {
   color: var(--cream);
 }
 
+/* Mi perfil */
+.profile__intro {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 32px;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+.profile__layout {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin-bottom: 40px;
+}
+
+.profile__card {
+  flex: 1 1 220px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px var(--shadow);
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.profile__photo {
+  font-size: 3.5rem;
+  margin-bottom: 8px;
+}
+
+.profile__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.profile__stats {
+  flex: 2 1 360px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px var(--shadow);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-card__value {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--orange-dark);
+}
+
+.stat-card__label {
+  font-size: 0.85rem;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+.stat-card__bar {
+  margin-top: 6px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--peach);
+  overflow: hidden;
+}
+
+.stat-card__bar span {
+  display: block;
+  height: 100%;
+  background: var(--orange);
+  border-radius: 999px;
+}
+
+.profile__likes {
+  margin-top: 16px;
+}
+
+.cards--admirers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.admirer-card {
+  position: relative;
+  text-align: center;
+  padding: 24px;
+}
+
+.admirer-card__emoji {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.admirer-card.is-locked .admirer-card__emoji,
+.admirer-card.is-locked h4,
+.admirer-card.is-locked p {
+  filter: blur(5px);
+  user-select: none;
+}
+
+.admirer-card__lock {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--orange-dark);
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius);
+}
+
+[data-theme="dark"] .profile__card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .admirer-card {
+  background: #2a2018;
+  color: var(--cream);
+}
+
+[data-theme="dark"] .stat-card__bar {
+  background: #4a3526;
+}
+
+[data-theme="dark"] .admirer-card__lock {
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--cream);
+}
+
 /* Register section */
 .register {
   background: var(--brown);

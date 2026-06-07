@@ -772,3 +772,77 @@ renderBusinesses();
 affiliateBtn.addEventListener('click', () => {
   businessMessage.textContent = '🛍️ Muy pronto podrás explorar y comprar productos recomendados para tu perro directamente desde aquí.';
 });
+
+// Mi perfil: tarjeta propia, estadísticas y "quién te dio me gusta"
+const myPet = pets[0];
+
+const myProfile = { views: 128, likesReceived: 34, matchRate: 62 };
+
+const admirers = [
+  { name: 'Bella', emoji: '🐾', breed: 'Beagle' },
+  { name: 'Mia', emoji: '🐕‍🦺', breed: 'Poodle' },
+  { name: 'Luna', emoji: '🐶', breed: 'Pug' },
+];
+
+const profileCard = document.getElementById('profileCard');
+const profileStats = document.getElementById('profileStats');
+const admirersGrid = document.getElementById('admirersGrid');
+const unlockAdmirersBtn = document.getElementById('unlockAdmirersBtn');
+
+function renderProfileCard() {
+  const badgeTags = (myPet.activityBadges || [])
+    .map((badge) => `<span class="tag tag--activity">${badge}</span>`)
+    .join('');
+  const verifiedTag = myPet.verified ? '<span class="tag tag--verified">🏅 Verificado</span>' : '';
+
+  profileCard.innerHTML = `
+    <div class="profile__photo">${myPet.emoji}</div>
+    <h3>${myPet.name}</h3>
+    <p>${myPet.breed} · ${myPet.age} años · ${myPet.size}</p>
+    <div class="profile__badges">${verifiedTag}${badgeTags}</div>
+  `;
+}
+
+function renderProfileStats() {
+  profileStats.innerHTML = `
+    <div class="stat-card">
+      <span class="stat-card__value">${myProfile.views}</span>
+      <span class="stat-card__label">👀 Visitas al perfil</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__value">${myProfile.likesReceived}</span>
+      <span class="stat-card__label">❤️ Me gusta recibidos</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__value">${myProfile.matchRate}%</span>
+      <span class="stat-card__label">🎉 Tasa de match</span>
+      <div class="stat-card__bar"><span style="width: ${myProfile.matchRate}%"></span></div>
+    </div>
+  `;
+}
+
+let admirersUnlocked = false;
+
+function renderAdmirers() {
+  admirersGrid.innerHTML = admirers
+    .map((admirer) => `
+      <div class="card admirer-card ${admirersUnlocked ? '' : 'is-locked'}">
+        <span class="admirer-card__emoji">${admirer.emoji}</span>
+        <h4>${admirer.name}</h4>
+        <p>${admirer.breed}</p>
+        ${admirersUnlocked ? '' : '<div class="admirer-card__lock">🔒 Plus</div>'}
+      </div>
+    `)
+    .join('');
+}
+
+renderProfileCard();
+renderProfileStats();
+renderAdmirers();
+
+unlockAdmirersBtn.addEventListener('click', () => {
+  admirersUnlocked = true;
+  renderAdmirers();
+  unlockAdmirersBtn.textContent = '¡Desbloqueado con Plus! 🏅';
+  unlockAdmirersBtn.disabled = true;
+});
