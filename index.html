@@ -213,6 +213,15 @@
           <!-- Las tarjetas de eventos se generan con JavaScript -->
         </div>
       </div>
+
+      <div class="community__block">
+        <h3 class="community__subtitle">🗳️ Encuesta de la comunidad</h3>
+        <p class="community__hint" id="pollQuestion">¿Cuál es la actividad favorita de tu perro para socializar?</p>
+        <div class="poll" id="pollWidget">
+          <!-- Las opciones de la encuesta se generan con JavaScript -->
+        </div>
+        <p class="poll__message" id="pollMessage" aria-live="polite"></p>
+      </div>
     </div>
   </section>
 
@@ -459,8 +468,20 @@
 
   <footer class="footer">
     <div class="container footer__inner">
-      <p>🐾 PatasMatch — Hecho con cariño para los amantes de los perros.</p>
-      <p>Recuerda siempre conocer a otros dueños en lugares públicos y seguros para tu mascota.</p>
+      <div class="footer__about">
+        <p>🐾 PatasMatch — Hecho con cariño para los amantes de los perros.</p>
+        <p>Recuerda siempre conocer a otros dueños en lugares públicos y seguros para tu mascota.</p>
+      </div>
+      <form class="newsletter" id="newsletterForm">
+        <label class="newsletter__label" for="newsletterEmail">📰 Suscríbete al boletín de PatasMatch</label>
+        <p class="newsletter__hint">Consejos para pasear, novedades de la app y próximas quedadas — directo a tu correo.</p>
+        <div class="newsletter__row">
+          <label class="visually-hidden" for="newsletterEmail">Correo electrónico</label>
+          <input type="email" id="newsletterEmail" name="newsletterEmail" placeholder="tu@correo.com" required>
+          <button type="submit" class="btn btn--primary">Suscribirme</button>
+        </div>
+        <p class="newsletter__message" id="newsletterMessage" aria-live="polite"></p>
+      </form>
     </div>
   </footer>
 

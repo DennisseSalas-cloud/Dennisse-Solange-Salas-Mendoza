@@ -254,6 +254,7 @@ img {
 [data-theme="dark"] .filter-btn,
 [data-theme="dark"] .filter-select,
 [data-theme="dark"] .like-btn,
+[data-theme="dark"] .share-btn,
 [data-theme="dark"] .theme-toggle,
 [data-theme="dark"] .lang-toggle,
 [data-theme="dark"] .discover__btn,
@@ -283,6 +284,7 @@ img {
 [data-theme="dark"] .filter-btn,
 [data-theme="dark"] .filter-select,
 [data-theme="dark"] .like-btn,
+[data-theme="dark"] .share-btn,
 [data-theme="dark"] .nav-toggle,
 [data-theme="dark"] .discover__hint,
 [data-theme="dark"] .discover__btn,
@@ -1355,6 +1357,27 @@ img {
   color: var(--white);
 }
 
+.share-btn {
+  flex: 1;
+  border: 2px solid var(--peach);
+  background: var(--white);
+  color: var(--brown);
+  border-radius: 999px;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.share-btn:hover {
+  border-color: var(--orange);
+  color: var(--orange-dark);
+}
+
 /* Pricing */
 .pricing {
   padding: 72px 0;
@@ -1611,6 +1634,70 @@ img {
   margin-bottom: 20px;
 }
 
+.poll {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 560px;
+}
+
+.poll__choice {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  border: 2px solid var(--peach);
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.poll__choice:hover:not(:disabled) {
+  border-color: var(--orange);
+}
+
+.poll__choice:disabled {
+  cursor: default;
+}
+
+.poll__choice-percent {
+  font-weight: 700;
+  color: var(--orange-dark);
+}
+
+.poll__bar {
+  height: 8px;
+  background: var(--peach);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.poll__bar span {
+  display: block;
+  height: 100%;
+  background: var(--orange);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.poll__option.is-chosen .poll__choice {
+  border-color: var(--orange);
+  background: var(--peach);
+}
+
+.poll__message {
+  margin-top: 16px;
+  font-weight: 700;
+  color: var(--orange-dark);
+  min-height: 24px;
+}
+
 .cards--spots,
 .cards--events {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1647,6 +1734,21 @@ img {
 
 [data-theme="dark"] .community {
   background: #1f1812;
+}
+
+[data-theme="dark"] .poll__choice {
+  background: #2c2117;
+  border-color: #4a3526;
+  color: var(--cream);
+}
+
+[data-theme="dark"] .poll__bar {
+  background: #4a3526;
+}
+
+[data-theme="dark"] .poll__option.is-chosen .poll__choice {
+  background: #3a2c20;
+  border-color: var(--orange);
 }
 
 /* Negocios locales y monetización */
@@ -2276,14 +2378,81 @@ img {
 .footer {
   background: var(--brown);
   color: var(--peach);
-  padding: 28px 0;
-  text-align: center;
+  padding: 40px 0;
   font-size: 0.9rem;
 }
 
-.footer p + p {
+.footer__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.footer__about {
+  text-align: left;
+  max-width: 360px;
+}
+
+.footer__about p + p {
   margin-top: 6px;
   opacity: 0.85;
+}
+
+.newsletter {
+  flex: 1;
+  min-width: 280px;
+  max-width: 420px;
+  text-align: left;
+}
+
+.newsletter__label {
+  display: block;
+  font-weight: 700;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+
+.newsletter__hint {
+  opacity: 0.8;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.newsletter__row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.newsletter__row input {
+  flex: 1;
+  min-width: 180px;
+  padding: 11px 14px;
+  border: 2px solid rgba(255, 247, 239, 0.3);
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-family: inherit;
+  background: rgba(255, 247, 239, 0.1);
+  color: var(--cream);
+}
+
+.newsletter__row input::placeholder {
+  color: rgba(255, 247, 239, 0.6);
+}
+
+.newsletter__row input:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+.newsletter__message {
+  margin-top: 10px;
+  font-weight: 600;
+  color: var(--cream);
+  min-height: 22px;
+  font-size: 0.88rem;
 }
 
 /* Responsive */

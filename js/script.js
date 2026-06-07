@@ -385,6 +385,7 @@ function renderPets() {
         ${momentsBlock}
         <div class="pet-card__actions">
           <button class="like-btn" data-name="${pet.name}">Me gusta 🐾</button>
+          <button class="share-btn" data-name="${pet.name}" aria-label="Compartir perfil de ${pet.name}" title="Compartir perfil">🔗 Compartir</button>
         </div>
       </div>
     `;
@@ -403,6 +404,27 @@ function renderPets() {
         const pet = pets.find((p) => p.name === btn.dataset.name);
         if (pet?.likesYou) triggerMatch(pet.name);
       }
+    });
+  });
+
+  // Botones de "compartir": copian un enlace simulado al perfil de la mascota
+  petGrid.querySelectorAll('.share-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      if (btn.dataset.busy) return;
+      const name = btn.dataset.name;
+      const link = `https://patasmatch.example.com/perfil/${encodeURIComponent(name.toLowerCase())}`;
+      const original = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(link);
+        btn.textContent = '✅ Enlace copiado';
+      } catch (error) {
+        btn.textContent = `🔗 ${link}`;
+      }
+      btn.dataset.busy = 'true';
+      setTimeout(() => {
+        btn.textContent = original;
+        delete btn.dataset.busy;
+      }, 2200);
     });
   });
 
@@ -1304,4 +1326,62 @@ copyReferralBtn.addEventListener('click', async () => {
   } catch (error) {
     referralMessage.textContent = `📋 Tu código de invitación es "${code}" — cópialo y compártelo con un amigo para que ambos ganéis 1 mes de Plus gratis.`;
   }
+});
+
+// Encuesta de la comunidad: votación con resultados en memoria
+const pollWidget = document.getElementById('pollWidget');
+const pollMessage = document.getElementById('pollMessage');
+
+const poll = {
+  options: [
+    { label: 'Pasear en grupo 🐕‍🦺', votes: 42 },
+    { label: 'Jugar en el parque 🎾', votes: 35 },
+    { label: 'Quedadas y eventos 📅', votes: 18 },
+    { label: 'Solo conocerse y olfatearse 👃', votes: 11 },
+  ],
+  votedFor: null,
+};
+
+function renderPoll() {
+  const totalVotes = poll.options.reduce((sum, option) => sum + option.votes, 0);
+
+  pollWidget.innerHTML = poll.options
+    .map((option, index) => {
+      const percent = totalVotes ? Math.round((option.votes / totalVotes) * 100) : 0;
+      const isChosen = poll.votedFor === index;
+      return `
+        <div class="poll__option ${isChosen ? 'is-chosen' : ''}">
+          <button class="poll__choice" data-index="${index}" ${poll.votedFor !== null ? 'disabled' : ''}>
+            <span class="poll__choice-label">${option.label}${isChosen ? ' ✅' : ''}</span>
+            <span class="poll__choice-percent">${percent}%</span>
+          </button>
+          <div class="poll__bar"><span style="width: ${percent}%"></span></div>
+        </div>
+      `;
+    })
+    .join('');
+
+  pollWidget.querySelectorAll('.poll__choice').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (poll.votedFor !== null) return;
+      const index = Number(btn.dataset.index);
+      poll.options[index].votes += 1;
+      poll.votedFor = index;
+      pollMessage.textContent = `🗳️ ¡Gracias por votar! Elegiste "${poll.options[index].label}" — los resultados son una demostración con datos de muestra.`;
+      renderPoll();
+    });
+  });
+}
+
+renderPoll();
+
+// Boletín informativo: suscripción de demostración
+const newsletterForm = document.getElementById('newsletterForm');
+const newsletterMessage = document.getElementById('newsletterMessage');
+
+newsletterForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const email = document.getElementById('newsletterEmail').value.trim();
+  newsletterMessage.textContent = `✅ ¡Gracias por suscribirte, ${email}! Es una demostración — en la versión completa recibirías nuestro boletín mensual con consejos y novedades.`;
+  newsletterForm.reset();
 });
