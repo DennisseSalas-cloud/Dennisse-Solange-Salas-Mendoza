@@ -209,6 +209,8 @@ const sizeFilter = document.getElementById('sizeFilter');
 const energyFilter = document.getElementById('energyFilter');
 const verifiedOnlyFilter = document.getElementById('verifiedOnlyFilter');
 const favoritesOnlyFilter = document.getElementById('favoritesOnlyFilter');
+const petSearch = document.getElementById('petSearch');
+const petSuggestions = document.getElementById('petSuggestions');
 
 const filters = {
   goal: 'todos',
@@ -216,6 +218,7 @@ const filters = {
   energy: 'todos',
   verifiedOnly: false,
   favoritesOnly: false,
+  search: '',
 };
 
 // Modo favoritos: guarda perfiles para revisarlos después sin dar "me gusta" todavía
@@ -233,6 +236,11 @@ function getFilteredPets() {
     if (filters.energy !== 'todos' && pet.energy !== filters.energy) return false;
     if (filters.verifiedOnly && !pet.verified) return false;
     if (filters.favoritesOnly && !favoritePets.has(pet.name)) return false;
+    if (filters.search) {
+      const term = filters.search.toLowerCase();
+      const matches = pet.name.toLowerCase().includes(term) || pet.breed.toLowerCase().includes(term);
+      if (!matches) return false;
+    }
     return true;
   });
 
@@ -444,6 +452,15 @@ verifiedOnlyFilter.addEventListener('change', () => {
 
 favoritesOnlyFilter.addEventListener('change', () => {
   filters.favoritesOnly = favoritesOnlyFilter.checked;
+  renderPets();
+});
+
+// Buscador con autocompletar: filtra mascotas por nombre o raza al escribir
+const searchSuggestions = [...new Set(pets.flatMap((pet) => [pet.name, pet.breed]))];
+petSuggestions.innerHTML = searchSuggestions.map((value) => `<option value="${value}"></option>`).join('');
+
+petSearch.addEventListener('input', () => {
+  filters.search = petSearch.value.trim();
   renderPets();
 });
 
@@ -1043,3 +1060,85 @@ function renderTestimonials() {
 }
 
 renderTestimonials();
+
+// Tour guiado de bienvenida para usuarios nuevos
+const tourOverlay = document.getElementById('tourOverlay');
+const tourEmoji = document.getElementById('tourEmoji');
+const tourTitle = document.getElementById('tourTitle');
+const tourText = document.getElementById('tourText');
+const tourDots = document.getElementById('tourDots');
+const tourPrevBtn = document.getElementById('tourPrevBtn');
+const tourNextBtn = document.getElementById('tourNextBtn');
+const closeTourBtn = document.getElementById('closeTourBtn');
+const startTourBtn = document.getElementById('startTourBtn');
+
+const tourSteps = [
+  { emoji: '🗂️', title: 'Explora la galería', text: 'Descubre perfiles de mascotas cerca de ti y usa los filtros para encontrar a su compañero ideal por tamaño, energía o si buscan pareja o paseo.' },
+  { emoji: '👉', title: 'Desliza en modo Descubrir', text: 'Cambia a la vista "Descubrir" para ver un perfil a la vez: pulsa ✕ para pasar o ❤️ si te interesa.' },
+  { emoji: '🎉', title: 'Haz match y coordina', text: 'Cuando a ambos os guste el perfil, se abre un "match" con una vista previa de chat para coordinar dónde quedar — siempre en lugares públicos y seguros.' },
+];
+
+let tourStep = 0;
+
+function renderTourStep() {
+  const step = tourSteps[tourStep];
+  tourEmoji.textContent = step.emoji;
+  tourTitle.textContent = step.title;
+  tourText.textContent = step.text;
+
+  tourDots.innerHTML = tourSteps
+    .map((_, index) => `<span class="tour-card__dot ${index === tourStep ? 'is-active' : ''}"></span>`)
+    .join('');
+
+  tourPrevBtn.hidden = tourStep === 0;
+  tourNextBtn.textContent = tourStep === tourSteps.length - 1 ? '¡Entendido! 🐾' : 'Siguiente';
+}
+
+function openTour() {
+  tourStep = 0;
+  renderTourStep();
+  tourOverlay.hidden = false;
+  closeTourBtn.focus();
+}
+
+function closeTour() {
+  tourOverlay.hidden = true;
+  startTourBtn.focus();
+}
+
+startTourBtn.addEventListener('click', openTour);
+closeTourBtn.addEventListener('click', closeTour);
+
+tourPrevBtn.addEventListener('click', () => {
+  if (tourStep > 0) {
+    tourStep -= 1;
+    renderTourStep();
+  }
+});
+
+tourNextBtn.addEventListener('click', () => {
+  if (tourStep < tourSteps.length - 1) {
+    tourStep += 1;
+    renderTourStep();
+  } else {
+    closeTour();
+  }
+});
+
+tourOverlay.addEventListener('click', (event) => {
+  if (event.target === tourOverlay) closeTour();
+});
+
+document.addEventListener('keydown', (event) => {
+  if (tourOverlay.hidden) return;
+  if (event.key === 'Escape') closeTour();
+  if (event.key === 'ArrowRight') tourNextBtn.click();
+  if (event.key === 'ArrowLeft' && tourStep > 0) tourPrevBtn.click();
+});
+
+// Accesibilidad: navegación por teclado en el modo Descubrir (flechas izquierda/derecha)
+document.addEventListener('keydown', (event) => {
+  if (discoverView.hidden) return;
+  if (event.key === 'ArrowLeft') swipe('left');
+  if (event.key === 'ArrowRight') swipe('right');
+});

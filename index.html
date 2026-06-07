@@ -30,7 +30,7 @@
           </button>
           <div class="notif__panel" id="notifPanel" hidden>
             <h4>Notificaciones</h4>
-            <ul class="notif__list" id="notifList"></ul>
+            <ul class="notif__list" id="notifList" aria-live="polite"></ul>
           </div>
         </div>
         <button class="theme-toggle" id="themeToggle" aria-label="Cambiar a modo oscuro">🌙</button>
@@ -48,6 +48,7 @@
           <a href="#mascotas" class="btn btn--primary">Buscar pareja 💞</a>
           <a href="#mascotas" class="btn btn--secondary">Buscar compañero de paseo 🐕‍🦺</a>
         </div>
+        <button class="link-btn" id="startTourBtn">🎬 ¿Primera vez? Haz un tour guiado</button>
       </div>
       <div class="hero__art" aria-hidden="true">
         <div class="paw-circle">🐾</div>
@@ -94,7 +95,13 @@
 
       <div class="locate">
         <button class="btn btn--primary" id="locateBtn">📍 Ver mascotas cerca de mí</button>
-        <p class="locate__message" id="locateMessage">Activa tu ubicación para ordenar a los perritos por cercanía.</p>
+        <p class="locate__message" id="locateMessage" aria-live="polite">Activa tu ubicación para ordenar a los perritos por cercanía.</p>
+      </div>
+
+      <div class="search-box">
+        <label for="petSearch" class="visually-hidden">Buscar mascota por nombre o raza</label>
+        <input type="search" id="petSearch" class="search-box__input" placeholder="🔎 Busca por nombre o raza..." list="petSuggestions" autocomplete="off">
+        <datalist id="petSuggestions"></datalist>
       </div>
 
       <div class="view-toggle">
@@ -151,7 +158,7 @@
         <div class="map-view__stage" id="mapStage">
           <!-- Los marcadores se generan con JavaScript -->
         </div>
-        <p class="map-view__info" id="mapInfo">Selecciona un marcador del mapa para ver más información.</p>
+        <p class="map-view__info" id="mapInfo" aria-live="polite">Selecciona un marcador del mapa para ver más información.</p>
       </div>
     </div>
   </section>
@@ -205,14 +212,28 @@
     </div>
   </section>
 
-  <div class="match-overlay" id="matchOverlay" hidden>
+  <div class="tour-overlay" id="tourOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+    <div class="tour-card">
+      <button class="tour-card__close" id="closeTourBtn" aria-label="Cerrar tour">✕</button>
+      <span class="tour-card__emoji" id="tourEmoji" aria-hidden="true">🗂️</span>
+      <h2 id="tourTitle">Explora la galería</h2>
+      <p id="tourText">Descubre perfiles de mascotas cerca de ti y usa los filtros para encontrar a su compañero ideal.</p>
+      <div class="tour-card__dots" id="tourDots"></div>
+      <div class="tour-card__actions">
+        <button class="btn btn--secondary" id="tourPrevBtn">Atrás</button>
+        <button class="btn btn--primary" id="tourNextBtn">Siguiente</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="match-overlay" id="matchOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="matchTitle">
     <div class="match-card">
-      <h2>🎉 ¡Es un Match!</h2>
+      <h2 id="matchTitle">🎉 ¡Es un Match!</h2>
       <p id="matchText">A ti y a esta mascota les gustaron mutuamente.</p>
 
       <div class="chat" id="matchChat" hidden>
         <p class="chat__hint">💬 Vista previa del chat — los mensajes no se guardan, es solo una demostración.</p>
-        <div class="chat__messages" id="chatMessages"></div>
+        <div class="chat__messages" id="chatMessages" aria-live="polite"></div>
         <form class="chat__form" id="chatForm">
           <input type="text" id="chatInput" placeholder="Escribe un mensaje..." autocomplete="off" maxlength="200" required>
           <button type="submit" class="btn btn--primary">Enviar</button>
@@ -283,7 +304,7 @@
           <button class="btn btn--secondary btn--full" id="oneTimeBtn">Comprar por separado</button>
         </div>
       </div>
-      <p class="pricing__message" id="pricingMessage"></p>
+      <p class="pricing__message" id="pricingMessage" aria-live="polite"></p>
     </div>
   </section>
 
@@ -304,7 +325,7 @@
         </div>
         <button class="btn btn--secondary" id="affiliateBtn">Ver productos</button>
       </div>
-      <p class="local-business__message" id="businessMessage"></p>
+      <p class="local-business__message" id="businessMessage" aria-live="polite"></p>
     </div>
   </section>
 
@@ -360,7 +381,7 @@
           </div>
         </div>
         <button type="submit" class="btn btn--primary btn--full">Crear perfil</button>
-        <p class="form__message" id="formMessage"></p>
+        <p class="form__message" id="formMessage" aria-live="polite"></p>
       </form>
     </div>
   </section>
