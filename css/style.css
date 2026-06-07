@@ -78,6 +78,12 @@ img {
   color: var(--orange-dark);
 }
 
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .nav-toggle {
   display: none;
   background: none;
@@ -85,6 +91,108 @@ img {
   font-size: 1.6rem;
   color: var(--brown);
   cursor: pointer;
+}
+
+.theme-toggle {
+  background: var(--cream);
+  border: 2px solid var(--peach);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: rotate(20deg);
+  border-color: var(--orange);
+}
+
+/* Modo oscuro */
+[data-theme="dark"] body {
+  background: #1f1812;
+  color: #f3e6d8;
+}
+
+[data-theme="dark"] .navbar,
+[data-theme="dark"] .card,
+[data-theme="dark"] .pet-card,
+[data-theme="dark"] .form,
+[data-theme="dark"] .filter-btn,
+[data-theme="dark"] .filter-select,
+[data-theme="dark"] .like-btn,
+[data-theme="dark"] .theme-toggle,
+[data-theme="dark"] .discover__btn,
+[data-theme="dark"] .match-card {
+  background: #2c2117;
+  color: #f3e6d8;
+}
+
+[data-theme="dark"] .navbar {
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme="dark"] .logo,
+[data-theme="dark"] .nav-links a,
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .hero__text h1,
+[data-theme="dark"] .hero__text p,
+[data-theme="dark"] .card h3,
+[data-theme="dark"] .card p,
+[data-theme="dark"] .pet-card__body h3,
+[data-theme="dark"] .pet-card__body p,
+[data-theme="dark"] .step h3,
+[data-theme="dark"] .pricing-card h3,
+[data-theme="dark"] .pricing__intro,
+[data-theme="dark"] .form label,
+[data-theme="dark"] .form__label,
+[data-theme="dark"] .filter-btn,
+[data-theme="dark"] .filter-select,
+[data-theme="dark"] .like-btn,
+[data-theme="dark"] .nav-toggle,
+[data-theme="dark"] .discover__hint,
+[data-theme="dark"] .discover__btn,
+[data-theme="dark"] .match-card h2,
+[data-theme="dark"] .match-card p,
+[data-theme="dark"] .view-toggle__btn {
+  color: #f3e6d8;
+}
+
+[data-theme="dark"] .hero {
+  background: linear-gradient(135deg, #3a2c20 0%, #1f1812 70%);
+}
+
+[data-theme="dark"] .pet-card__photo,
+[data-theme="dark"] .paw-circle,
+[data-theme="dark"] .pet-card__vaccines,
+[data-theme="dark"] .swipe-card__photo {
+  background: #3a2c20;
+}
+
+[data-theme="dark"] .form input[type="text"],
+[data-theme="dark"] .form input[type="number"] {
+  background: #1f1812;
+  border-color: #4a3526;
+  color: #f3e6d8;
+}
+
+[data-theme="dark"] .filter-btn,
+[data-theme="dark"] .filter-select,
+[data-theme="dark"] .view-toggle__btn {
+  border-color: #4a3526;
+}
+
+[data-theme="dark"] .register,
+[data-theme="dark"] .footer {
+  background: #150f0a;
+}
+
+[data-theme="dark"] .swipe-card {
+  background: #2c2117;
 }
 
 /* Hero */
@@ -194,6 +302,10 @@ img {
   gap: 24px;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .cards--steps {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
@@ -260,6 +372,16 @@ img {
   border: 1.5px solid var(--peach);
 }
 
+.tag--activity {
+  background: #f4d35e;
+  color: var(--brown);
+}
+
+.tag--streak {
+  background: #ffd6cc;
+  color: #c1502e;
+}
+
 .pet-card__vaccines {
   font-size: 0.82rem;
   background: var(--cream);
@@ -297,6 +419,190 @@ img {
   background: var(--orange);
   border-color: var(--orange);
   color: var(--white);
+}
+
+.filters--secondary {
+  margin-bottom: 36px;
+}
+
+.filter-select {
+  background: var(--white);
+  border: 2px solid var(--peach);
+  color: var(--brown);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.checkbox--filter {
+  background: var(--white);
+  border: 2px solid var(--peach);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 600;
+  color: var(--brown);
+}
+
+/* Alternador Galería / Descubrir */
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.view-toggle__btn {
+  background: none;
+  border: 2px solid var(--peach);
+  color: var(--brown);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-toggle__btn.is-active {
+  background: var(--brown);
+  border-color: var(--brown);
+  color: var(--white);
+}
+
+/* Modo descubrir (swipe) */
+.discover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.discover__hint {
+  color: var(--brown-light);
+  text-align: center;
+}
+
+.discover__stage {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  height: 420px;
+}
+
+.swipe-card {
+  position: absolute;
+  inset: 0;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.swipe-card__photo {
+  height: 220px;
+  background: var(--peach);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+}
+
+.swipe-card__body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.swipe-card__body h3 {
+  color: var(--brown);
+}
+
+.swipe-card.is-leaving-left {
+  transform: translateX(-160%) rotate(-18deg);
+  opacity: 0;
+}
+
+.swipe-card.is-leaving-right {
+  transform: translateX(160%) rotate(18deg);
+  opacity: 0;
+}
+
+.discover__empty {
+  text-align: center;
+  color: var(--brown-light);
+  padding: 40px 20px;
+}
+
+.discover__actions {
+  display: flex;
+  gap: 24px;
+}
+
+.discover__btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.discover__btn:hover {
+  transform: scale(1.08);
+}
+
+.discover__btn--pass {
+  color: var(--orange-dark);
+}
+
+.discover__btn--like {
+  color: #e0566f;
+}
+
+/* Modal de match */
+.match-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(74, 51, 38, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.match-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 36px;
+  text-align: center;
+  max-width: 360px;
+  animation: match-pop 0.35s ease;
+}
+
+.match-card h2 {
+  color: var(--orange-dark);
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+}
+
+.match-card p {
+  margin-bottom: 22px;
+  color: var(--brown-light);
+}
+
+@keyframes match-pop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 /* Pet cards */

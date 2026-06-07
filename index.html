@@ -18,7 +18,10 @@
         <a href="#precios">Precios</a>
         <a href="#registro">Regístrate</a>
       </nav>
-      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar a modo oscuro">🌙</button>
+        <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+      </div>
     </div>
   </header>
 
@@ -70,17 +73,59 @@
         <p class="locate__message" id="locateMessage">Activa tu ubicación para ordenar a los perritos por cercanía.</p>
       </div>
 
+      <div class="view-toggle">
+        <button class="view-toggle__btn is-active" data-view="galeria">🗂️ Galería</button>
+        <button class="view-toggle__btn" data-view="descubrir">👉 Descubrir</button>
+      </div>
+
       <div class="filters">
-        <button class="filter-btn is-active" data-filter="todos">Todos</button>
-        <button class="filter-btn" data-filter="pareja">Buscan pareja 💞</button>
-        <button class="filter-btn" data-filter="paseo">Buscan paseo 🐕</button>
+        <button class="filter-btn is-active" data-filter-group="goal" data-filter="todos">Todos</button>
+        <button class="filter-btn" data-filter-group="goal" data-filter="pareja">Buscan pareja 💞</button>
+        <button class="filter-btn" data-filter-group="goal" data-filter="paseo">Buscan paseo 🐕</button>
+      </div>
+
+      <div class="filters filters--secondary">
+        <select class="filter-select" id="sizeFilter" aria-label="Filtrar por tamaño">
+          <option value="todos">Cualquier tamaño</option>
+          <option value="pequeño">Pequeño</option>
+          <option value="mediano">Mediano</option>
+          <option value="grande">Grande</option>
+        </select>
+        <select class="filter-select" id="energyFilter" aria-label="Filtrar por energía">
+          <option value="todos">Cualquier energía</option>
+          <option value="tranquilo">Tranquilo 😌</option>
+          <option value="activo">Activo ⚡</option>
+        </select>
+        <label class="checkbox checkbox--filter">
+          <input type="checkbox" id="verifiedOnlyFilter">
+          Solo verificados 🏅
+        </label>
       </div>
 
       <div class="cards cards--pets" id="petGrid">
         <!-- Las tarjetas se generan con JavaScript -->
       </div>
+
+      <div class="discover" id="discoverView" hidden>
+        <p class="discover__hint">Desliza o usa los botones para descubrir mascotas cerca de ti.</p>
+        <div class="discover__stage" id="discoverStage">
+          <!-- La tarjeta de descubrimiento se genera con JavaScript -->
+        </div>
+        <div class="discover__actions">
+          <button class="discover__btn discover__btn--pass" id="passBtn" aria-label="Pasar">✕</button>
+          <button class="discover__btn discover__btn--like" id="superLikeBtn" aria-label="Me gusta">❤️</button>
+        </div>
+      </div>
     </div>
   </section>
+
+  <div class="match-overlay" id="matchOverlay" hidden>
+    <div class="match-card">
+      <h2>🎉 ¡Es un Match!</h2>
+      <p id="matchText">A ti y a esta mascota les gustaron mutuamente.</p>
+      <button class="btn btn--primary" id="closeMatchBtn">Genial 🐾</button>
+    </div>
+  </div>
 
   <section class="pricing" id="precios">
     <div class="container">
