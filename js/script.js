@@ -49,6 +49,12 @@ const pets = [
       { author: 'Marta', rating: 5, comment: 'Quedamos puntuales y los perros se llevaron genial 🐾' },
       { author: 'Iván', rating: 4, comment: 'Muy buena energía entre los perros, repetiríamos sin duda' },
     ],
+    availability: ['L', 'X', 'V', 'S'],
+    moments: [
+      { emoji: '🌳', caption: 'Paseo por el Retiro' },
+      { emoji: '🎾', caption: 'Tarde de juegos en el parque' },
+      { emoji: '🐕', caption: 'Primer encuentro con Bella' },
+    ],
   },
   {
     name: 'Luna', breed: 'Pug', age: 2, emoji: '🐶', goals: ['paseo'],
@@ -60,6 +66,11 @@ const pets = [
     likesYou: false,
     reviews: [
       { author: 'Sofía', rating: 5, comment: 'Paseo tranquilo y agradable, Luna es un encanto' },
+    ],
+    availability: ['M', 'J', 'D'],
+    moments: [
+      { emoji: '👃', caption: 'Explorando olores nuevos' },
+      { emoji: '☕', caption: 'Café tranquilo con su dueña' },
     ],
   },
   {
@@ -76,6 +87,11 @@ const pets = [
       { author: 'Lucía', rating: 5, comment: 'Dueño muy responsable y puntual, todo perfecto' },
       { author: 'Ana', rating: 4, comment: 'Buena experiencia, repetiremos la próxima semana' },
     ],
+    availability: ['L', 'M', 'X', 'J', 'V'],
+    moments: [
+      { emoji: '🎉', caption: 'Su quinta cita con Luna' },
+      { emoji: '🛡️', caption: 'Cuidando del grupo en el paseo' },
+    ],
   },
   {
     name: 'Mia', breed: 'Poodle', age: 1, emoji: '🐕‍🦺', goals: ['paseo'],
@@ -86,6 +102,10 @@ const pets = [
     weeklyWalks: 6,
     likesYou: true,
     reviews: [],
+    availability: ['S', 'D'],
+    moments: [
+      { emoji: '⚡', caption: 'Carrera matutina en el parque' },
+    ],
   },
   {
     name: 'Max', breed: 'Pastor Alemán', age: 5, emoji: '🐺', goals: ['pareja', 'paseo'],
@@ -97,6 +117,11 @@ const pets = [
     likesYou: false,
     reviews: [
       { author: 'Pedro', rating: 3, comment: 'Buen paseo, aunque conviene avisar antes si hay otros machos cerca' },
+    ],
+    availability: ['L', 'X', 'V', 'D'],
+    moments: [
+      { emoji: '🐾', caption: 'Patrullando el barrio' },
+      { emoji: '🌅', caption: 'Paseo al amanecer' },
     ],
   },
   {
@@ -111,6 +136,11 @@ const pets = [
     reviews: [
       { author: 'Noa', rating: 5, comment: 'Bella es supersociable, ideal para un primer encuentro' },
       { author: 'Diego', rating: 5, comment: 'Quedada perfecta, muy recomendable' },
+    ],
+    availability: ['M', 'J', 'S', 'D'],
+    moments: [
+      { emoji: '🧺', caption: 'Picnic canino con nuevos amigos' },
+      { emoji: '🥰', caption: 'Tarde de mimos en el parque' },
     ],
   },
 ];
@@ -179,8 +209,60 @@ function buildPetTags(pet) {
     : '';
 
   const reviewsBlock = buildReviewsBlock(pet);
+  const availabilityBlock = buildAvailabilityBlock(pet);
+  const momentsBlock = buildMomentsBlock(pet);
 
-  return { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock };
+  return { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock, availabilityBlock, momentsBlock };
+}
+
+const WEEK_DAYS = [
+  { code: 'L', label: 'Lunes' },
+  { code: 'M', label: 'Martes' },
+  { code: 'X', label: 'Miércoles' },
+  { code: 'J', label: 'Jueves' },
+  { code: 'V', label: 'Viernes' },
+  { code: 'S', label: 'Sábado' },
+  { code: 'D', label: 'Domingo' },
+];
+
+// Construye el calendario semanal de disponibilidad del dueño para pasear o quedar
+function buildAvailabilityBlock(pet) {
+  if (!pet.availability?.length) return '';
+
+  const days = WEEK_DAYS
+    .map(({ code, label }) => {
+      const isAvailable = pet.availability.includes(code);
+      return `<span class="day-pill ${isAvailable ? 'is-available' : ''}" title="${label}${isAvailable ? ': disponible' : ': no disponible'}">${code}</span>`;
+    })
+    .join('');
+
+  return `
+    <div class="pet-card__availability">
+      <p class="pet-card__availability-label">📅 Disponible para quedar:</p>
+      <div class="day-pills">${days}</div>
+    </div>
+  `;
+}
+
+// Construye la mini galería de "momentos" (paseos o citas pasadas) del perfil
+function buildMomentsBlock(pet) {
+  if (!pet.moments?.length) return '';
+
+  const items = pet.moments
+    .map((moment) => `
+      <div class="moment-card" title="${moment.caption}">
+        <span class="moment-card__emoji">${moment.emoji}</span>
+        <span class="moment-card__caption">${moment.caption}</span>
+      </div>
+    `)
+    .join('');
+
+  return `
+    <div class="pet-card__moments">
+      <p class="pet-card__moments-label">📸 Momentos compartidos:</p>
+      <div class="moments-strip">${items}</div>
+    </div>
+  `;
 }
 
 // Construye el resumen de reseñas: estrellas promedio, número de reseñas y el último comentario
@@ -210,7 +292,7 @@ function renderPets() {
     const card = document.createElement('div');
     card.className = 'pet-card';
 
-    const { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock } = buildPetTags(pet);
+    const { verifiedTag, activityTags, streakTag, goalTags, distanceTag, personalityTags, vaccinesBlock, reviewsBlock, availabilityBlock, momentsBlock } = buildPetTags(pet);
 
     card.innerHTML = `
       <div class="pet-card__photo">${pet.emoji}</div>
@@ -221,6 +303,8 @@ function renderPets() {
         ${vaccinesBlock}
         <div class="pet-card__tags">${personalityTags}</div>
         ${reviewsBlock}
+        ${availabilityBlock}
+        ${momentsBlock}
         <div class="pet-card__actions">
           <button class="like-btn" data-name="${pet.name}">Me gusta 🐾</button>
         </div>
@@ -489,6 +573,23 @@ locateBtn.addEventListener('click', () => {
 // Formulario de registro
 const petForm = document.getElementById('petForm');
 const formMessage = document.getElementById('formMessage');
+const petPhotoInput = document.getElementById('petPhoto');
+const photoPreview = document.getElementById('photoPreview');
+const photoPreviewImg = document.getElementById('photoPreviewImg');
+
+// Vista previa local de la foto subida (no se envía a ningún servidor: el sitio es estático)
+petPhotoInput.addEventListener('change', () => {
+  const file = petPhotoInput.files[0];
+
+  if (!file) {
+    photoPreview.hidden = true;
+    photoPreviewImg.src = '';
+    return;
+  }
+
+  photoPreviewImg.src = URL.createObjectURL(file);
+  photoPreview.hidden = false;
+});
 
 petForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -503,6 +604,8 @@ petForm.addEventListener('submit', (event) => {
 
   formMessage.textContent = `¡Perfil de ${petName} creado con éxito! 🎉 Pronto le mostraremos nuevos amigos.`;
   petForm.reset();
+  photoPreview.hidden = true;
+  photoPreviewImg.src = '';
 });
 
 // Botones de la sección de precios (vista previa: la pasarela de pago aún no está conectada)

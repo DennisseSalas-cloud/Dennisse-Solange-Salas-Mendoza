@@ -248,6 +248,14 @@
             <label class="checkbox"><input type="checkbox" name="goal" value="paseo"> Compañero de paseo 🐕</label>
           </div>
         </div>
+        <div class="form__row">
+          <label for="petPhoto">Foto de tu perro</label>
+          <input type="file" id="petPhoto" name="petPhoto" accept="image/*">
+          <p class="form__hint">Vista previa local — la foto no se sube a ningún servidor todavía.</p>
+          <div class="photo-preview" id="photoPreview" hidden>
+            <img id="photoPreviewImg" alt="Vista previa de la foto de tu perro">
+          </div>
+        </div>
         <button type="submit" class="btn btn--primary btn--full">Crear perfil</button>
         <p class="form__message" id="formMessage"></p>
       </form>
