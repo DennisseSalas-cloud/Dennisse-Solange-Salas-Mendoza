@@ -12,12 +12,12 @@ navLinks.querySelectorAll('a').forEach((link) => {
 
 // Datos de ejemplo de mascotas
 const pets = [
-  { name: 'Toby', breed: 'Labrador', age: 3, emoji: '🐕', goals: ['pareja', 'paseo'] },
-  { name: 'Luna', breed: 'Pug', age: 2, emoji: '🐶', goals: ['paseo'] },
-  { name: 'Rocky', breed: 'Bulldog', age: 4, emoji: '🐩', goals: ['pareja'] },
-  { name: 'Mia', breed: 'Poodle', age: 1, emoji: '🐕‍🦺', goals: ['paseo'] },
-  { name: 'Max', breed: 'Pastor Alemán', age: 5, emoji: '🐺', goals: ['pareja', 'paseo'] },
-  { name: 'Bella', breed: 'Beagle', age: 2, emoji: '🐾', goals: ['pareja'] },
+  { name: 'Toby', breed: 'Labrador', age: 3, emoji: '🐕', goals: ['pareja', 'paseo'], verified: true },
+  { name: 'Luna', breed: 'Pug', age: 2, emoji: '🐶', goals: ['paseo'], verified: false },
+  { name: 'Rocky', breed: 'Bulldog', age: 4, emoji: '🐩', goals: ['pareja'], verified: true },
+  { name: 'Mia', breed: 'Poodle', age: 1, emoji: '🐕‍🦺', goals: ['paseo'], verified: false },
+  { name: 'Max', breed: 'Pastor Alemán', age: 5, emoji: '🐺', goals: ['pareja', 'paseo'], verified: false },
+  { name: 'Bella', breed: 'Beagle', age: 2, emoji: '🐾', goals: ['pareja'], verified: true },
 ];
 
 const petGrid = document.getElementById('petGrid');
@@ -51,12 +51,16 @@ function renderPets() {
       ? `<span class="tag tag--distance">📍 ${pet.distanceKm.toFixed(1)} km de ti</span>`
       : '';
 
+    const verifiedTag = pet.verified
+      ? `<span class="tag tag--verified">🏅 Verificado</span>`
+      : '';
+
     card.innerHTML = `
       <div class="pet-card__photo">${pet.emoji}</div>
       <div class="pet-card__body">
-        <h3>${pet.name}</h3>
+        <h3>${pet.name} ${pet.verified ? '🏅' : ''}</h3>
         <p>${pet.breed} · ${pet.age} años</p>
-        <div class="pet-card__tags">${goalTags}${distanceTag}</div>
+        <div class="pet-card__tags">${verifiedTag}${goalTags}${distanceTag}</div>
         <div class="pet-card__actions">
           <button class="like-btn" data-name="${pet.name}">Me gusta 🐾</button>
         </div>
@@ -171,4 +175,17 @@ petForm.addEventListener('submit', (event) => {
 
   formMessage.textContent = `¡Perfil de ${petName} creado con éxito! 🎉 Pronto le mostraremos nuevos amigos.`;
   petForm.reset();
+});
+
+// Botones de la sección de precios (vista previa: la pasarela de pago aún no está conectada)
+const subscribeBtn = document.getElementById('subscribeBtn');
+const oneTimeBtn = document.getElementById('oneTimeBtn');
+const pricingMessage = document.getElementById('pricingMessage');
+
+subscribeBtn.addEventListener('click', () => {
+  pricingMessage.textContent = '🏅 ¡Genial! Pronto activaremos los pagos para que puedas suscribirte a Plus (4,99 €/mes o 39,99 €/año) y obtener tu insignia de verificado.';
+});
+
+oneTimeBtn.addEventListener('click', () => {
+  pricingMessage.textContent = '🐾 Muy pronto podrás comprar verificaciones, impulsos de perfil y packs de fotos sin necesidad de suscribirte.';
 });

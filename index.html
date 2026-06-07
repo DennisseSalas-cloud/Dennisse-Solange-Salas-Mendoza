@@ -15,6 +15,7 @@
         <a href="#inicio">Inicio</a>
         <a href="#mascotas">Mascotas</a>
         <a href="#como-funciona">Cómo funciona</a>
+        <a href="#precios">Precios</a>
         <a href="#registro">Regístrate</a>
       </nav>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
@@ -78,6 +79,57 @@
       <div class="cards cards--pets" id="petGrid">
         <!-- Las tarjetas se generan con JavaScript -->
       </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="precios">
+    <div class="container">
+      <h2 class="section-title">Planes y precios</h2>
+      <p class="pricing__intro">Empieza gratis y mejora cuando quieras. Precios pensados para España (IVA incluido).</p>
+
+      <div class="cards cards--pricing">
+        <div class="card pricing-card">
+          <h3>Gratis</h3>
+          <p class="pricing-card__price">0 €<span>/siempre</span></p>
+          <ul class="pricing-card__list">
+            <li>1 perfil de mascota con hasta 3 fotos</li>
+            <li>Búsqueda y filtros básicos</li>
+            <li>GPS con radio de hasta 5 km</li>
+            <li>10 "me gusta" al día</li>
+            <li>Anuncios discretos</li>
+          </ul>
+          <a href="#registro" class="btn btn--secondary btn--full">Empezar gratis</a>
+        </div>
+
+        <div class="card pricing-card pricing-card--featured">
+          <span class="pricing-card__badge">Más popular</span>
+          <h3>PatasMatch Plus</h3>
+          <p class="pricing-card__price">4,99 €<span>/mes</span></p>
+          <p class="pricing-card__alt">o 39,99 €/año (ahorra ~33%)</p>
+          <ul class="pricing-card__list">
+            <li>🏅 Insignia de "Verificado" para ti y tu mascota</li>
+            <li>Prioridad en los resultados de búsqueda GPS</li>
+            <li>"Me gusta" y matches ilimitados</li>
+            <li>Mira quién le dio "me gusta" a tu mascota</li>
+            <li>Estadísticas de tu perfil</li>
+            <li>Sin anuncios</li>
+          </ul>
+          <button class="btn btn--primary btn--full" id="subscribeBtn">Suscribirme a Plus</button>
+        </div>
+
+        <div class="card pricing-card">
+          <h3>Compras únicas</h3>
+          <p class="pricing-card__price">Desde 0,99 €</p>
+          <p class="pricing-card__alt">Sin suscripción, paga solo lo que necesites</p>
+          <ul class="pricing-card__list">
+            <li>Verificación individual — <strong>2,99 €</strong></li>
+            <li>Impulso de perfil 24h — <strong>1,99 €</strong></li>
+            <li>Pack de fotos extra — <strong>0,99 €</strong></li>
+          </ul>
+          <button class="btn btn--secondary btn--full" id="oneTimeBtn">Comprar por separado</button>
+        </div>
+      </div>
+      <p class="pricing__message" id="pricingMessage"></p>
     </div>
   </section>
 
