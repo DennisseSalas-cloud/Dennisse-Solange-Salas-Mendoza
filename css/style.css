@@ -112,6 +112,118 @@ img {
   border-color: var(--orange);
 }
 
+/* Notificaciones */
+.notif {
+  position: relative;
+}
+
+.notif__btn {
+  position: relative;
+  background: var(--cream);
+  border: 2px solid var(--peach);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease;
+}
+
+.notif__btn:hover {
+  border-color: var(--orange);
+}
+
+.notif__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--orange-dark);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.notif__panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 300px;
+  max-width: 88vw;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  z-index: 150;
+}
+
+.notif__panel h4 {
+  color: var(--brown);
+  margin-bottom: 10px;
+}
+
+.notif__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.notif__list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.notif__icon {
+  font-size: 1.2rem;
+}
+
+.notif__list p {
+  font-size: 0.86rem;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.notif__time {
+  font-size: 0.74rem;
+  color: var(--brown-light);
+}
+
+[data-theme="dark"] .notif__btn {
+  background: #3a2c20;
+  border-color: #4a3526;
+}
+
+[data-theme="dark"] .notif__panel {
+  background: #2a2018;
+}
+
+[data-theme="dark"] .notif__panel h4 {
+  color: var(--cream);
+}
+
+[data-theme="dark"] .notif__list li {
+  background: #3a2c20;
+}
+
+[data-theme="dark"] .notif__list p {
+  color: var(--cream);
+}
+
 /* Modo oscuro */
 [data-theme="dark"] body {
   background: #1f1812;
@@ -1065,6 +1177,121 @@ img {
 
 [data-theme="dark"] .community {
   background: #1f1812;
+}
+
+/* Negocios locales y monetización */
+.local-business {
+  padding: 72px 0;
+  background: var(--white);
+}
+
+.local-business__intro {
+  text-align: center;
+  max-width: 620px;
+  margin: -16px auto 36px;
+  color: var(--brown-light);
+}
+
+.cards--business {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin-bottom: 32px;
+}
+
+.business-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  position: relative;
+}
+
+.business-card__emoji {
+  font-size: 2rem;
+}
+
+.business-card__category {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--orange-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.business-card__sponsored {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--peach);
+  color: var(--brown);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.affiliate-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--cream);
+  border-radius: var(--radius);
+  padding: 24px;
+  flex-wrap: wrap;
+}
+
+.affiliate-banner__emoji {
+  font-size: 2.4rem;
+}
+
+.affiliate-banner__text {
+  flex: 1;
+  min-width: 200px;
+}
+
+.affiliate-banner__text h3 {
+  color: var(--brown);
+  margin-bottom: 4px;
+}
+
+.affiliate-banner__text p {
+  color: var(--brown-light);
+  font-size: 0.92rem;
+}
+
+.local-business__message {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 700;
+  color: var(--orange-dark);
+  min-height: 24px;
+}
+
+.event-card__sponsor {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--orange-dark);
+  background: var(--peach);
+  border-radius: 999px;
+  padding: 3px 10px;
+  align-self: flex-start;
+}
+
+[data-theme="dark"] .local-business {
+  background: #1f1812;
+}
+
+[data-theme="dark"] .affiliate-banner {
+  background: #2a2018;
+}
+
+[data-theme="dark"] .affiliate-banner__text h3 {
+  color: var(--cream);
+}
+
+[data-theme="dark"] .business-card__sponsored,
+[data-theme="dark"] .event-card__sponsor {
+  background: #4a3526;
+  color: var(--cream);
 }
 
 /* Register section */

@@ -20,6 +20,16 @@
         <a href="#registro">Regístrate</a>
       </nav>
       <div class="navbar__actions">
+        <div class="notif">
+          <button class="notif__btn" id="notifBtn" aria-label="Ver notificaciones">
+            🔔
+            <span class="notif__badge" id="notifBadge" hidden>0</span>
+          </button>
+          <div class="notif__panel" id="notifPanel" hidden>
+            <h4>Notificaciones</h4>
+            <ul class="notif__list" id="notifList"></ul>
+          </div>
+        </div>
         <button class="theme-toggle" id="themeToggle" aria-label="Cambiar a modo oscuro">🌙</button>
         <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
       </div>
@@ -212,6 +222,27 @@
         </div>
       </div>
       <p class="pricing__message" id="pricingMessage"></p>
+    </div>
+  </section>
+
+  <section class="local-business" id="negocios">
+    <div class="container">
+      <h2 class="section-title">Negocios y ofertas cerca de ti</h2>
+      <p class="local-business__intro">Marcas y negocios locales para el cuidado de tu perro. Algunos espacios son anuncios patrocinados que ayudan a mantener la app gratuita.</p>
+
+      <div class="cards cards--business" id="businessGrid">
+        <!-- Las tarjetas de negocios se generan con JavaScript -->
+      </div>
+
+      <div class="affiliate-banner">
+        <span class="affiliate-banner__emoji">🛍️</span>
+        <div class="affiliate-banner__text">
+          <h3>Tienda de accesorios PatasMatch</h3>
+          <p>Correas, juguetes y snacks recomendados — al comprar a través de estos enlaces de afiliado, ayudas a que la app se mantenga gratuita.</p>
+        </div>
+        <button class="btn btn--secondary" id="affiliateBtn">Ver productos</button>
+      </div>
+      <p class="local-business__message" id="businessMessage"></p>
     </div>
   </section>
 

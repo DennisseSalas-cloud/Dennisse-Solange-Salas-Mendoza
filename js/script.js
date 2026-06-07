@@ -34,6 +34,62 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem(THEME_KEY, nextTheme);
 });
 
+// Notificaciones (vista previa: avisos de ejemplo, no hay backend ni envíos en tiempo real)
+const notifications = [
+  { icon: '🐾', text: 'A Bella le gustó el perfil de Toby', time: 'hace 10 min' },
+  { icon: '🎉', text: '¡Tienes un nuevo match con Luna!', time: 'hace 1 h' },
+  { icon: '📅', text: 'Nueva quedada cerca de ti: Picnic canino, 28 jun', time: 'hace 3 h' },
+  { icon: '⭐', text: 'Recibiste una reseña nueva de Marta', time: 'ayer' },
+];
+
+const notifBtn = document.getElementById('notifBtn');
+const notifBadge = document.getElementById('notifBadge');
+const notifPanel = document.getElementById('notifPanel');
+const notifList = document.getElementById('notifList');
+
+let unreadNotifications = notifications.length;
+
+function renderNotifications() {
+  notifList.innerHTML = notifications
+    .map((notif) => `
+      <li>
+        <span class="notif__icon">${notif.icon}</span>
+        <div>
+          <p>${notif.text}</p>
+          <span class="notif__time">${notif.time}</span>
+        </div>
+      </li>
+    `)
+    .join('');
+}
+
+function updateNotifBadge() {
+  if (unreadNotifications > 0) {
+    notifBadge.textContent = unreadNotifications;
+    notifBadge.hidden = false;
+  } else {
+    notifBadge.hidden = true;
+  }
+}
+
+renderNotifications();
+updateNotifBadge();
+
+notifBtn.addEventListener('click', () => {
+  notifPanel.hidden = !notifPanel.hidden;
+
+  if (!notifPanel.hidden && unreadNotifications > 0) {
+    unreadNotifications = 0;
+    updateNotifBadge();
+  }
+});
+
+document.addEventListener('click', (event) => {
+  if (!notifPanel.hidden && !event.target.closest('.notif')) {
+    notifPanel.hidden = true;
+  }
+});
+
 // Datos de ejemplo de mascotas
 const pets = [
   {
@@ -649,7 +705,7 @@ renderSafeSpots();
 const events = [
   { title: 'Quedada de razas pequeñas', date: '14 jun · 11:00', place: 'Parque del Retiro', emoji: '🐩', spots: 8 },
   { title: 'Paseo nocturno por el río', date: '21 jun · 20:30', place: 'Ribera del Manzanares', emoji: '🌙', spots: 12 },
-  { title: 'Picnic canino y juegos en grupo', date: '28 jun · 12:00', place: 'Parque Juan Carlos I', emoji: '🧺', spots: 20 },
+  { title: 'Picnic canino y juegos en grupo', date: '28 jun · 12:00', place: 'Parque Juan Carlos I', emoji: '🧺', spots: 20, sponsoredBy: 'PawShop 🛍️' },
 ];
 
 const eventsGrid = document.getElementById('eventsGrid');
@@ -660,7 +716,12 @@ function renderEvents() {
   events.forEach((event) => {
     const card = document.createElement('div');
     card.className = 'card event-card';
+    const sponsorTag = event.sponsoredBy
+      ? `<span class="event-card__sponsor">📣 Patrocinado por ${event.sponsoredBy}</span>`
+      : '';
+
     card.innerHTML = `
+      ${sponsorTag}
       <span class="event-card__emoji">${event.emoji}</span>
       <h4>${event.title}</h4>
       <p class="event-card__meta">📅 ${event.date} · 📍 ${event.place}</p>
@@ -680,3 +741,34 @@ function renderEvents() {
 }
 
 renderEvents();
+
+// Negocios locales y monetización extra (anuncios + tienda afiliada)
+const localBusinesses = [
+  { name: 'Peluquería Pelo & Pata', emoji: '✂️', category: 'Peluquería canina', description: 'Baño, corte y spa para que tu perro luzca radiante antes de su próxima cita.', sponsored: true },
+  { name: 'Clínica Veterinaria 24h', emoji: '🩺', category: 'Veterinario', description: 'Atención de urgencias y revisiones para mantener al día las vacunas de tu mascota.', sponsored: true },
+  { name: 'PawShop — Tienda para mascotas', emoji: '🛒', category: 'Tienda', description: 'Comida, juguetes y accesorios con descuentos exclusivos para usuarios de PatasMatch.', sponsored: false },
+];
+
+const businessGrid = document.getElementById('businessGrid');
+const affiliateBtn = document.getElementById('affiliateBtn');
+const businessMessage = document.getElementById('businessMessage');
+
+function renderBusinesses() {
+  businessGrid.innerHTML = localBusinesses
+    .map((business) => `
+      <div class="card business-card">
+        ${business.sponsored ? '<span class="business-card__sponsored">📣 Anuncio</span>' : ''}
+        <span class="business-card__emoji">${business.emoji}</span>
+        <p class="business-card__category">${business.category}</p>
+        <h4>${business.name}</h4>
+        <p>${business.description}</p>
+      </div>
+    `)
+    .join('');
+}
+
+renderBusinesses();
+
+affiliateBtn.addEventListener('click', () => {
+  businessMessage.textContent = '🛍️ Muy pronto podrás explorar y comprar productos recomendados para tu perro directamente desde aquí.';
+});
