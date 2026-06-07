@@ -19,6 +19,7 @@
         <a href="#como-funciona">Cómo funciona</a>
         <a href="#blog">Blog</a>
         <a href="#faq">FAQ</a>
+        <a href="#ayuda">Ayuda</a>
         <a href="#precios">Precios</a>
         <a href="#registro">Regístrate</a>
       </nav>
@@ -98,6 +99,10 @@
         <p class="locate__message" id="locateMessage" aria-live="polite">Activa tu ubicación para ordenar a los perritos por cercanía.</p>
       </div>
 
+      <div class="weather-widget" id="weatherWidget">
+        <!-- Generado con JavaScript -->
+      </div>
+
       <div class="search-box">
         <label for="petSearch" class="visually-hidden">Buscar mascota por nombre o raza</label>
         <input type="search" id="petSearch" class="search-box__input" placeholder="🔎 Busca por nombre o raza..." list="petSuggestions" autocomplete="off">
@@ -159,6 +164,30 @@
           <!-- Los marcadores se generan con JavaScript -->
         </div>
         <p class="map-view__info" id="mapInfo" aria-live="polite">Selecciona un marcador del mapa para ver más información.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="compatibility" id="compatibilidad">
+    <div class="container">
+      <h2 class="section-title">Calculadora de compatibilidad</h2>
+      <p class="compatibility__intro">Elige dos mascotas y descubre qué tan compatibles podrían ser para pasear juntas o tener una cita.</p>
+
+      <div class="compatibility__form">
+        <div>
+          <label for="compatPet1" class="visually-hidden">Primera mascota</label>
+          <select class="filter-select" id="compatPet1"></select>
+        </div>
+        <span class="compatibility__vs" aria-hidden="true">🐾 vs 🐾</span>
+        <div>
+          <label for="compatPet2" class="visually-hidden">Segunda mascota</label>
+          <select class="filter-select" id="compatPet2"></select>
+        </div>
+        <button class="btn btn--primary" id="compatBtn">Calcular compatibilidad</button>
+      </div>
+
+      <div class="compatibility__result" id="compatResult" hidden aria-live="polite">
+        <!-- Generado con JavaScript -->
       </div>
     </div>
   </section>
@@ -336,6 +365,30 @@
       <div class="faq__list" id="faqList">
         <!-- Las preguntas se generan con JavaScript -->
       </div>
+    </div>
+  </section>
+
+  <section class="help" id="ayuda">
+    <div class="container">
+      <h2 class="section-title">Centro de ayuda</h2>
+      <p class="help__intro">¿Tienes dudas, sugerencias o necesitas ayuda? Escríbenos y te responderemos lo antes posible.</p>
+
+      <form class="form help__form" id="contactForm">
+        <div class="form__row">
+          <label for="contactName">Tu nombre</label>
+          <input type="text" id="contactName" name="contactName" placeholder="Ej. Dennisse" required>
+        </div>
+        <div class="form__row">
+          <label for="contactEmail">Tu correo</label>
+          <input type="email" id="contactEmail" name="contactEmail" placeholder="Ej. tu@correo.com" required>
+        </div>
+        <div class="form__row">
+          <label for="contactMessage">Mensaje</label>
+          <textarea id="contactMessage" name="contactMessage" rows="4" placeholder="Cuéntanos en qué podemos ayudarte..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full">Enviar mensaje</button>
+        <p class="form__message" id="contactMessage_status" aria-live="polite"></p>
+      </form>
     </div>
   </section>
 

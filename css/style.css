@@ -298,7 +298,9 @@ img {
 }
 
 [data-theme="dark"] .form input[type="text"],
-[data-theme="dark"] .form input[type="number"] {
+[data-theme="dark"] .form input[type="number"],
+[data-theme="dark"] .form input[type="email"],
+[data-theme="dark"] .form textarea {
   background: #1f1812;
   border-color: #4a3526;
   color: #f3e6d8;
@@ -566,6 +568,47 @@ img {
   background: #2a2018;
   border-color: #4a3526;
   color: var(--cream);
+}
+
+/* Widget de clima para paseos */
+.weather-widget {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 420px;
+  margin: 0 auto 24px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 22px;
+}
+
+.weather-widget__emoji {
+  font-size: 2.2rem;
+}
+
+.weather-widget__temp {
+  font-weight: 700;
+  color: var(--brown);
+}
+
+.weather-widget__tip {
+  font-size: 0.88rem;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+[data-theme="dark"] .weather-widget {
+  background: #2a2018;
+}
+
+[data-theme="dark"] .weather-widget__temp {
+  color: var(--cream);
+}
+
+[data-theme="dark"] .weather-widget__tip {
+  color: var(--cream);
+  opacity: 0.85;
 }
 
 .tag--distance {
@@ -1450,6 +1493,74 @@ img {
   color: var(--cream);
 }
 
+/* Calculadora de compatibilidad */
+.compatibility__intro {
+  text-align: center;
+  max-width: 620px;
+  margin: -16px auto 32px;
+  color: var(--brown-light);
+}
+
+.compatibility__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.compatibility__vs {
+  font-weight: 700;
+  color: var(--orange-dark);
+}
+
+.compatibility__result {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+  text-align: center;
+}
+
+.compatibility__score {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--orange-dark);
+  margin-bottom: 10px;
+}
+
+.compatibility__bar {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--peach);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.compatibility__bar span {
+  display: block;
+  height: 100%;
+  background: var(--orange);
+  border-radius: 999px;
+}
+
+.compatibility__message {
+  color: var(--text);
+  line-height: 1.6;
+}
+
+[data-theme="dark"] .compatibility__result {
+  background: #2a2018;
+  color: var(--cream);
+}
+
+[data-theme="dark"] .compatibility__bar {
+  background: #4a3526;
+}
+
 .community {
   padding: 72px 0;
   background: var(--cream);
@@ -1860,6 +1971,32 @@ img {
   color: var(--cream);
 }
 
+/* Centro de ayuda */
+.help__intro {
+  text-align: center;
+  max-width: 620px;
+  margin: -16px auto 32px;
+  color: var(--brown-light);
+}
+
+.help__form {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+}
+
+.help__form textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+[data-theme="dark"] .help__form {
+  background: #2a2018;
+}
+
 /* Register section */
 .register {
   background: var(--brown);
@@ -1917,16 +2054,20 @@ img {
 }
 
 .form input[type="text"],
-.form input[type="number"] {
+.form input[type="number"],
+.form input[type="email"],
+.form textarea {
   padding: 12px 14px;
   border: 2px solid var(--peach);
   border-radius: 10px;
   font-size: 1rem;
+  font-family: inherit;
   background: var(--cream);
   color: var(--text);
 }
 
-.form input:focus {
+.form input:focus,
+.form textarea:focus {
   outline: none;
   border-color: var(--orange);
 }

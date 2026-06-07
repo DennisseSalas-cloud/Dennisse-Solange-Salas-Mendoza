@@ -1142,3 +1142,86 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') swipe('left');
   if (event.key === 'ArrowRight') swipe('right');
 });
+
+// Widget de clima: sugiere si es buen momento para salir a pasear
+const todayWeather = { emoji: '☀️', condition: 'Soleado', temp: 22, recommendation: '¡Buen día para un paseo largo! Lleva agua fresca para tu perro.' };
+const weatherWidget = document.getElementById('weatherWidget');
+
+function renderWeatherWidget() {
+  weatherWidget.innerHTML = `
+    <span class="weather-widget__emoji" aria-hidden="true">${todayWeather.emoji}</span>
+    <div class="weather-widget__body">
+      <p class="weather-widget__temp">${todayWeather.temp}°C · ${todayWeather.condition}</p>
+      <p class="weather-widget__tip">🐾 ${todayWeather.recommendation}</p>
+    </div>
+  `;
+}
+
+renderWeatherWidget();
+
+// Calculadora de compatibilidad entre dos mascotas
+const compatPet1 = document.getElementById('compatPet1');
+const compatPet2 = document.getElementById('compatPet2');
+const compatBtn = document.getElementById('compatBtn');
+const compatResult = document.getElementById('compatResult');
+
+function fillCompatSelect(select, defaultIndex) {
+  select.innerHTML = pets
+    .map((pet, index) => `<option value="${index}" ${index === defaultIndex ? 'selected' : ''}>${pet.emoji} ${pet.name} — ${pet.breed}</option>`)
+    .join('');
+}
+
+fillCompatSelect(compatPet1, 0);
+fillCompatSelect(compatPet2, 1);
+
+function compatibilityMessage(score) {
+  if (score >= 80) return '¡Combinación perfecta! Es muy probable que se lleven genial desde el primer paseo 🎉';
+  if (score >= 60) return 'Muy buena compatibilidad — comparten bastante en común 🐾';
+  if (score >= 40) return 'Compatibilidad moderada: con una buena presentación en un lugar tranquilo podría funcionar 🙂';
+  return 'Compatibilidad baja por ahora, pero todos los perros merecen la oportunidad de conocerse con calma 🐶';
+}
+
+function calculateCompatibility(petA, petB) {
+  let score = 0;
+
+  const sharedGoals = petA.goals.filter((goal) => petB.goals.includes(goal));
+  if (sharedGoals.length > 0) score += 35;
+
+  if (petA.energy && petA.energy === petB.energy) score += 25;
+  if (petA.size && petA.size === petB.size) score += 20;
+
+  const sharedTraits = (petA.personality || []).filter((trait) => (petB.personality || []).includes(trait));
+  score += Math.min(sharedTraits.length * 10, 20);
+
+  return Math.min(score, 100);
+}
+
+compatBtn.addEventListener('click', () => {
+  const petA = pets[Number(compatPet1.value)];
+  const petB = pets[Number(compatPet2.value)];
+
+  if (petA.name === petB.name) {
+    compatResult.innerHTML = `<p>🐾 Elige dos mascotas distintas para calcular su compatibilidad.</p>`;
+    compatResult.hidden = false;
+    return;
+  }
+
+  const score = calculateCompatibility(petA, petB);
+
+  compatResult.innerHTML = `
+    <p class="compatibility__score">${score}% compatibles</p>
+    <div class="compatibility__bar"><span style="width: ${score}%"></span></div>
+    <p class="compatibility__message">${petA.emoji} ${petA.name} y ${petB.emoji} ${petB.name}: ${compatibilityMessage(score)}</p>
+  `;
+  compatResult.hidden = false;
+});
+
+// Centro de ayuda: formulario de contacto de demostración
+const contactForm = document.getElementById('contactForm');
+const contactStatus = document.getElementById('contactMessage_status');
+
+contactForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  contactStatus.textContent = '✅ ¡Gracias por escribirnos! Es una demostración — en la versión completa recibirías una respuesta de nuestro equipo por correo.';
+  contactForm.reset();
+});
